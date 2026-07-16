@@ -1,0 +1,28 @@
+# WordPress core & config (this repo tracks the custom theme only)
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/index.php
+/xmlrpc.php
+/license.txt
+/readme.html
+wp-config.php
+
+# Uploads & generated content
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/database/
+wp-content/*.sqlite
+wp-content/db.php
+wp-content/debug.log
+
+# Other themes & plugins (not part of this repo)
+wp-content/themes/twenty*/
+wp-content/plugins/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+node_modules/

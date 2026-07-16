@@ -1,0 +1,97 @@
+/* ============================================================
+   SDi Design System — Design Tokens
+   Reconstructed from the SDi design handoff (hifi).
+   ============================================================ */
+
+:root {
+  /* --- Typography --- */
+  --font-sans: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-display: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --tracking-caps: 0.12em;
+
+  /* --- Brand colors --- */
+  --brand-primary: #1D6EFF;        /* bleu électrique — action unique */
+  --brand-primary-hover: #1559D6;
+  --brand-cyan: #00A5E4;           /* accents techniques / IA */
+
+  /* Blue ramp */
+  --blue-50: #EAF1FF;
+  --blue-100: #D6E4FF;
+  --blue-200: #B8D0FF;
+  --blue-400: #4D8BFF;
+  --blue-500: #1D6EFF;
+  --blue-600: #1559D6;
+
+  /* Cyan ramp */
+  --cyan-400: #26BEEC;
+  --cyan-500: #00A5E4;
+  --cyan-600: #0088BD;
+
+  /* Magenta (usage très ponctuel) */
+  --magenta-400: #E8579E;
+  --magenta-500: #DA2686;
+
+  /* Support accents */
+  --amber-500: #F5A524;
+  --green-400: #34D399;
+
+  /* Navy / slate ramp */
+  --navy-50: #F4F7FB;
+  --navy-100: #E6ECF4;
+  --navy-200: #CAD5E6;
+  --navy-300: #9AA8C4;
+  --navy-400: #6B7A99;
+  --navy-500: #48566F;
+  --navy-600: #334155;
+  --navy-700: #1E293B;
+  --navy-800: #131E33;
+  --navy-900: #0F172A;
+  --navy-950: #0B1120;
+
+  /* --- Surfaces --- */
+  --white: #FFFFFF;
+  --surface-page: var(--navy-50);
+  --surface-card: #FFFFFF;
+
+  /* --- Text --- */
+  --text-strong: #0F172A;
+  --text-body: #334155;
+  --text-muted: #64748B;
+  --text-subtle: #94A3B8;
+
+  /* --- Borders --- */
+  --border-subtle: #E6ECF4;
+  --border-default: #D3DCEA;
+  --border-inverse: rgba(255, 255, 255, 0.12);
+
+  /* --- Gradients --- */
+  --gradient-navy: linear-gradient(165deg, #16223D 0%, #0F172A 46%, #0B1120 100%);
+  --gradient-brand: linear-gradient(135deg, #1D6EFF 0%, #00A5E4 100%);
+  --gradient-brand-vivid: linear-gradient(120deg, #1D6EFF 0%, #4D8BFF 100%);
+  --gradient-halo: radial-gradient(ellipse 90% 62% at 50% -6%, rgba(29, 110, 255, 0.20) 0%, rgba(29, 110, 255, 0) 68%);
+
+  /* Glass */
+  --glass-bg-dark: rgba(255, 255, 255, 0.04);
+
+  /* --- Radii --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-3xl: 36px;
+
+  /* --- Shadows (navy-tinted, never pure black) --- */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 20px 44px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 32px 64px rgba(15, 23, 42, 0.16);
+
+  /* Focus ring */
+  --ring-focus: 0 0 0 4px rgba(29, 110, 255, 0.16);
+
+  /* Motion */
+  --ease-signature: cubic-bezier(0.16, 1, 0.3, 1);
+}

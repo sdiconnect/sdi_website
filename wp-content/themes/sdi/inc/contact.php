@@ -1,0 +1,135 @@
+<?php
+/**
+ * Contact form handling (admin-post) with nonce + honeypot, native wp_mail.
+ *
+ * @package SDi
+ */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+/**
+ * Where to send contact requests.
+ *
+ * @return string
+ */
+function sdi_contact_recipient() {
+	/**
+	 * Filter the contact form recipient. Defaults to SDi's public inbox;
+	 * override with the filter or set the option 'sdi_contact_email'.
+	 *
+	 * @param string $email Recipient email.
+	 */
+	$default = get_option( 'sdi_contact_email' );
+	if ( ! $default || ! is_email( $default ) ) {
+		$default = 'contact@sdi-connect.com';
+	}
+	return apply_filters( 'sdi_contact_recipient', $default );
+}
+
+/**
+ * Process the contact form submission.
+ */
+function sdi_handle_contact() {
+	$referer = wp_get_referer() ? wp_get_referer() : home_url( '/' );
+
+	// Nonce.
+	if ( ! isset( $_POST['sdi_contact_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sdi_contact_nonce'] ) ), 'sdi_contact' ) ) {
+		wp_safe_redirect( add_query_arg( 'contact', 'error', $referer ) );
+		exit;
+	}
+
+	// Honeypot: real users leave it empty.
+	if ( ! empty( $_POST['sdi_website_hp'] ) ) {
+		wp_safe_redirect( add_query_arg( 'contact', 'sent', $referer ) ); // silently accept, discard.
+		exit;
+	}
+
+	$name    = isset( $_POST['sdi_name'] ) ? sanitize_text_field( wp_unslash( $_POST['sdi_name'] ) ) : '';
+	$email   = isset( $_POST['sdi_email'] ) ? sanitize_email( wp_unslash( $_POST['sdi_email'] ) ) : '';
+	$phone   = isset( $_POST['sdi_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['sdi_phone'] ) ) : '';
+	$message = isset( $_POST['sdi_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['sdi_message'] ) ) : '';
+
+	if ( '' === $name || ! is_email( $email ) || '' === $message ) {
+		$back = add_query_arg( 'contact', 'error', $referer );
+		wp_safe_redirect( remove_query_arg( 'contact', $back ) . ( strpos( $back, '?' ) !== false ? '&' : '?' ) . 'contact=error#contact' );
+		exit;
+	}
+
+	$to      = sdi_contact_recipient();
+	$subject = sprintf( '[SDi] Nouvelle demande de %s', $name );
+	$body    = "Nouvelle demande via le site sdi-connect.com\n\n"
+		. "Nom & entreprise : {$name}\n"
+		. "Email : {$email}\n"
+		. "Téléphone : {$phone}\n\n"
+		. "Besoin :\n{$message}\n";
+
+	$headers = array(
+		'Content-Type: text/plain; charset=UTF-8',
+		'Reply-To: ' . $name . ' <' . $email . '>',
+	);
+
+	wp_mail( $to, $subject, $body, $headers );
+
+	wp_safe_redirect( add_query_arg( 'contact', 'sent', $referer ) . '#contact' );
+	exit;
+}
+add_action( 'admin_post_nopriv_sdi_contact', 'sdi_handle_contact' );
+add_action( 'admin_post_sdi_contact', 'sdi_handle_contact' );
+
+/**
+ * Whether the current view just had a successful submission.
+ *
+ * @return bool
+ */
+function sdi_contact_sent() {
+	return isset( $_GET['contact'] ) && 'sent' === $_GET['contact']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display flag.
+}
+
+/**
+ * Whether the current view had a submission error.
+ *
+ * @return bool
+ */
+function sdi_contact_error() {
+	return isset( $_GET['contact'] ) && 'error' === $_GET['contact']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display flag.
+}
+
+/**
+ * Render the contact form markup (shared by front-page and contact page).
+ *
+ * @param string $heading Card heading text.
+ */
+function sdi_contact_form( $heading = 'Nous contacter' ) {
+	if ( sdi_contact_sent() ) {
+		?>
+		<div style="text-align:center;padding:44px 12px;">
+			<div style="width:64px;height:64px;border-radius:50%;background:var(--blue-50);color:var(--brand-primary);display:flex;align-items:center;justify-content:center;margin:0 auto;"><?php sdi_the_icon( 'check', 30 ); ?></div>
+			<h3 style="margin-top:20px;font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--text-strong);">Merci, c'est noté&nbsp;!</h3>
+			<p style="margin-top:10px;font-size:15px;color:var(--text-muted);">Notre équipe vous recontacte sous 24h ouvrées.</p>
+		</div>
+		<?php
+		return;
+	}
+	?>
+	<h3 style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--text-strong);letter-spacing:-0.01em;"><?php echo esc_html( $heading ); ?></h3>
+	<?php if ( sdi_contact_error() ) : ?>
+		<p role="alert" style="margin-top:12px;font-size:14px;color:#B4231F;background:#FDECEA;border:1px solid #F5C6C2;padding:10px 12px;border-radius:10px;">Merci de vérifier votre nom, un email valide et votre message.</p>
+	<?php endif; ?>
+	<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" style="margin-top:20px;display:flex;flex-direction:column;gap:16px;">
+		<input type="hidden" name="action" value="sdi_contact">
+		<?php wp_nonce_field( 'sdi_contact', 'sdi_contact_nonce' ); ?>
+		<div style="position:absolute;left:-9999px;" aria-hidden="true"><label>Ne pas remplir<input type="text" name="sdi_website_hp" tabindex="-1" autocomplete="off"></label></div>
+		<?php
+		echo sdi_input( array( 'label' => 'Nom & entreprise', 'name' => 'sdi_name', 'placeholder' => 'Marie Durand · Domaine Durand', 'required' => true ) ); // phpcs:ignore WordPress.Security.EscapeOutput
+		echo sdi_input( array( 'label' => 'Email professionnel', 'name' => 'sdi_email', 'type' => 'email', 'icon' => 'mail', 'placeholder' => 'vous@entreprise.fr', 'required' => true ) ); // phpcs:ignore WordPress.Security.EscapeOutput
+		echo sdi_input( array( 'label' => 'Téléphone', 'name' => 'sdi_phone', 'type' => 'tel', 'icon' => 'phone', 'placeholder' => '06 12 34 56 78' ) ); // phpcs:ignore WordPress.Security.EscapeOutput
+		?>
+		<div>
+			<label class="sdi-field__label" for="sdi-message">Votre besoin</label>
+			<textarea class="sdi-textarea" id="sdi-message" name="sdi_message" rows="4" placeholder="Décrivez votre projet en quelques mots…" required></textarea>
+		</div>
+		<?php echo sdi_button( array( 'label' => 'Envoyer ma demande', 'variant' => 'primary', 'size' => 'lg', 'full' => true, 'type' => 'submit' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+		<p style="font-size:12px;color:var(--text-subtle);line-height:1.45;text-align:center;">En envoyant ce formulaire, vous acceptez d'être recontacté par SDi. Vos données ne sont jamais revendues.</p>
+	</form>
+	<?php
+}
