@@ -10,6 +10,16 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
+ * Whether an SEO plugin (Yoast or Rank Math) is active. When it is, the theme
+ * defers all meta/title/schema output to the plugin to avoid duplicate tags.
+ *
+ * @return bool
+ */
+function sdi_seo_yoast_active() {
+	return defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || class_exists( 'WPSEO_Options' );
+}
+
+/**
  * Set SEO values for the current request.
  *
  * @param array $args title|description|keywords|breadcrumb (array of label=>url).
@@ -44,6 +54,9 @@ function sdi_company() {
  * @return string
  */
 function sdi_filter_document_title( $title ) {
+	if ( sdi_seo_yoast_active() ) {
+		return $title; // Yoast/Rank Math owns the title.
+	}
 	if ( ! empty( $GLOBALS['sdi_seo']['title'] ) ) {
 		return $GLOBALS['sdi_seo']['title'];
 	}
@@ -73,6 +86,9 @@ function sdi_meta_description() {
  * Output meta description, keywords, and Open Graph / Twitter tags.
  */
 function sdi_head_meta() {
+	if ( sdi_seo_yoast_active() ) {
+		return; // Yoast/Rank Math outputs description + Open Graph + Twitter tags.
+	}
 	$desc = sdi_meta_description();
 	$logo = get_template_directory_uri() . '/assets/img/sdi-logo-color.png';
 	$url  = ( is_front_page() ) ? home_url( '/' ) : ( is_singular() ? get_permalink() : home_url( add_query_arg( array(), $GLOBALS['wp']->request ) ) );
@@ -109,6 +125,9 @@ add_action( 'wp_head', 'sdi_head_meta', 2 );
  * BreadcrumbList when a template provided a breadcrumb).
  */
 function sdi_head_jsonld() {
+	// Even with Yoast active we keep the LocalBusiness + AggregateRating block
+	// (Yoast free doesn't output it) — it's a distinct entity with its own @id.
+	// The BreadcrumbList is only emitted when no SEO plugin owns breadcrumbs.
 	$c = sdi_company();
 
 	$business = array(
@@ -153,7 +172,8 @@ function sdi_head_jsonld() {
 
 	echo '<script type="application/ld+json">' . wp_json_encode( $business, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
 
-	if ( ! empty( $GLOBALS['sdi_seo']['breadcrumb'] ) && is_array( $GLOBALS['sdi_seo']['breadcrumb'] ) ) {
+	// Yoast/Rank Math own the breadcrumb schema when active.
+	if ( ! sdi_seo_yoast_active() && ! empty( $GLOBALS['sdi_seo']['breadcrumb'] ) && is_array( $GLOBALS['sdi_seo']['breadcrumb'] ) ) {
 		$items = array();
 		$pos   = 1;
 		foreach ( $GLOBALS['sdi_seo']['breadcrumb'] as $label => $u ) {

@@ -13,18 +13,18 @@ $sdi_footer_cols = array(
 	array(
 		'title' => 'Services',
 		'links' => array(
-			array( 'Création de site internet', sdi_page_url( 'services' ) ),
-			array( 'Site e-commerce', sdi_page_url( 'services' ) ),
-			array( 'Référencement SEO', sdi_page_url( 'services' ) ),
-			array( 'Google Ads', sdi_page_url( 'services' ) ),
-			array( 'SaaS sur-mesure', sdi_page_url( 'services' ) ),
+			array( 'Création de site internet', sdi_page_url( 'creation-site-internet' ) ),
+			array( 'Site e-commerce', sdi_page_url( 'site-e-commerce' ) ),
+			array( 'Référencement SEO', sdi_page_url( 'referencement-seo' ) ),
+			array( 'Google Ads', sdi_page_url( 'google-ads' ) ),
+			array( 'SaaS sur-mesure', sdi_page_url( 'saas-sur-mesure' ) ),
 		),
 	),
 	array(
 		'title' => 'Agents IA & agence',
 		'links' => array(
-			array( 'Agents IA sur-mesure', sdi_page_url( 'agents-ia' ) ),
-			array( 'Automatisation IA', sdi_page_url( 'agents-ia' ) ),
+			array( 'Agents IA sur-mesure', sdi_page_url( 'agents-ia-sur-mesure' ) ),
+			array( 'Automatisation IA', sdi_page_url( 'automatisation-ia' ) ),
 			array( 'Réalisations', sdi_page_url( 'realisations' ) ),
 			array( "L'agence", sdi_page_url( 'agence' ) ),
 			array( 'Contact', sdi_page_url( 'contact' ) ),
@@ -33,11 +33,11 @@ $sdi_footer_cols = array(
 	array(
 		'title' => 'Zones',
 		'links' => array(
-			array( 'Agence web Dijon', sdi_page_url( 'contact' ) ),
-			array( "SEO Dijon & Côte-d'Or", sdi_page_url( 'contact' ) ),
-			array( 'Agence web Paris', sdi_page_url( 'contact' ) ),
-			array( 'SEO national', sdi_page_url( 'contact' ) ),
-			array( 'France entière', sdi_page_url( 'contact' ) ),
+			array( 'Agence web Dijon', sdi_page_url( 'agence-web-dijon' ) ),
+			array( "SEO Dijon & Côte-d'Or", sdi_page_url( 'seo-dijon-cote-dor' ) ),
+			array( 'Agence web Paris', sdi_page_url( 'agence-web-paris' ) ),
+			array( 'SEO national', sdi_page_url( 'seo-national' ) ),
+			array( 'France entière', sdi_page_url( 'france-entiere' ) ),
 		),
 	),
 );

@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'SDI_VERSION', '1.0.0' );
+define( 'SDI_VERSION', '1.0.1' );
 define( 'SDI_DIR', get_template_directory() );
 define( 'SDI_URI', get_template_directory_uri() );
 
@@ -16,6 +16,8 @@ require_once SDI_DIR . '/inc/components.php';
 require_once SDI_DIR . '/inc/cpt.php';
 require_once SDI_DIR . '/inc/seo.php';
 require_once SDI_DIR . '/inc/contact.php';
+require_once SDI_DIR . '/inc/landing.php';
+require_once SDI_DIR . '/inc/landing-data.php';
 
 /**
  * Theme setup.
@@ -314,4 +316,68 @@ function sdi_get_realisations( $limit = 0 ) {
 	}
 
 	return array_map( 'sdi_realisation_data', $q );
+}
+
+/* ============================================================
+   Migrations (run on activation and on version change)
+   ============================================================ */
+
+/**
+ * Run version-gated migrations. Cheap no-op once up to date.
+ */
+function sdi_run_migrations() {
+	if ( get_option( 'sdi_theme_version' ) === SDI_VERSION ) {
+		return;
+	}
+	// v1.0.1: create the marketing landing pages + write their SEO meta.
+	sdi_create_landing_pages();
+	flush_rewrite_rules();
+	update_option( 'sdi_theme_version', SDI_VERSION );
+}
+add_action( 'after_switch_theme', 'sdi_run_migrations', 20 );
+add_action( 'admin_init', 'sdi_run_migrations' );
+
+/**
+ * Create (idempotent) the landing pages from inc/landing-data.php and write
+ * their Yoast SEO meta + excerpt. Never overwrites an existing page's content.
+ */
+function sdi_create_landing_pages() {
+	if ( ! function_exists( 'sdi_landing_pages' ) ) {
+		return;
+	}
+	foreach ( sdi_landing_pages() as $slug => $cfg ) {
+		$existing = get_page_by_path( $slug );
+		if ( $existing ) {
+			$page_id = $existing->ID;
+		} else {
+			$page_id = wp_insert_post(
+				array(
+					'post_title'   => $cfg['title'],
+					'post_name'    => $slug,
+					'post_status'  => 'publish',
+					'post_type'    => 'page',
+					'post_content' => '',
+					'post_excerpt' => isset( $cfg['seo']['desc'] ) ? $cfg['seo']['desc'] : '',
+					'menu_order'   => isset( $cfg['menu_order'] ) ? $cfg['menu_order'] : 0,
+				)
+			);
+			if ( is_wp_error( $page_id ) || ! $page_id ) {
+				continue;
+			}
+		}
+
+		// Yoast / Rank Math meta (harmless if the plugin isn't installed).
+		if ( ! empty( $cfg['seo'] ) ) {
+			update_post_meta( $page_id, '_yoast_wpseo_title', $cfg['seo']['title'] );
+			update_post_meta( $page_id, '_yoast_wpseo_metadesc', $cfg['seo']['desc'] );
+			if ( ! empty( $cfg['seo']['focus'] ) ) {
+				update_post_meta( $page_id, '_yoast_wpseo_focuskw', $cfg['seo']['focus'] );
+			}
+			update_post_meta( $page_id, 'rank_math_title', $cfg['seo']['title'] );
+			update_post_meta( $page_id, 'rank_math_description', $cfg['seo']['desc'] );
+			if ( ! empty( $cfg['seo']['focus'] ) ) {
+				update_post_meta( $page_id, 'rank_math_focus_keyword', $cfg['seo']['focus'] );
+			}
+		}
+	}
 }

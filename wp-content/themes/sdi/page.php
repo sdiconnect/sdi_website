@@ -1,12 +1,50 @@
 <?php
 /**
- * Generic page template (fallback for pages without a dedicated template,
- * e.g. Mentions légales, Confidentialité).
+ * Page template.
+ *
+ * Renders a designed landing page when the slug matches a landing config
+ * (see inc/landing-data.php); otherwise falls back to generic prose
+ * (Mentions légales, Confidentialité, etc.).
  *
  * @package SDi
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+$sdi_qobj    = get_queried_object();
+$sdi_landing = sdi_landing_for_post( $sdi_qobj );
+
+if ( $sdi_landing ) {
+	// Active nav group by slug family.
+	$sdi_services = array( 'creation-site-internet', 'site-e-commerce', 'referencement-seo', 'google-ads', 'saas-sur-mesure' );
+	$sdi_ia       = array( 'agents-ia-sur-mesure', 'automatisation-ia' );
+	if ( in_array( $sdi_qobj->post_name, $sdi_services, true ) ) {
+		$GLOBALS['sdi_active'] = 'services';
+	} elseif ( in_array( $sdi_qobj->post_name, $sdi_ia, true ) ) {
+		$GLOBALS['sdi_active'] = 'ia';
+	}
+
+	// SEO (used when no SEO plugin is active; Yoast/Rank Math override via postmeta).
+	if ( ! empty( $sdi_landing['seo'] ) ) {
+		$crumb_map = array();
+		foreach ( (array) ( $sdi_landing['crumbs'] ?? array() ) as $step ) {
+			$crumb_map[ $step['label'] ] = isset( $step['href'] ) ? $step['href'] : get_permalink( $sdi_qobj );
+		}
+		sdi_set_seo(
+			array(
+				'title'       => $sdi_landing['seo']['title'],
+				'description' => $sdi_landing['seo']['desc'],
+				'keywords'    => $sdi_landing['seo']['focus'] ?? '',
+				'breadcrumb'  => $crumb_map,
+			)
+		);
+	}
+
+	get_header();
+	sdi_landing( $sdi_landing );
+	get_footer();
+	return;
+}
 
 get_header();
 

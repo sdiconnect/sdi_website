@@ -264,6 +264,20 @@ a.sdi-crumb:hover { color: #fff !important; }
 .sdi-bot.is-open .sdi-bot__fab .sdi-bot__ico-close { display: flex; }
 
 /* ============================================================
+   FAQ accordion (native <details>)
+   ============================================================ */
+.sdi-faq { display: flex; flex-direction: column; gap: 12px; }
+.sdi-faq__item { background: var(--white); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); box-shadow: var(--shadow-xs); overflow: hidden; }
+.sdi-faq__q { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; font-family: var(--font-display); font-weight: 600; font-size: 17px; color: var(--text-strong); }
+.sdi-faq__q::-webkit-details-marker { display: none; }
+.sdi-faq__chevron { color: var(--brand-primary); display: inline-flex; flex-shrink: 0; transition: transform .25s var(--ease-signature); transform: rotate(90deg); }
+.sdi-faq__item[open] .sdi-faq__chevron { transform: rotate(-90deg); }
+.sdi-faq__a { padding: 0 22px 20px; font-size: 15px; line-height: 1.65; color: var(--text-muted); }
+.sdi-faq__a p { margin: 0 0 0.8em; }
+.sdi-faq__a p:last-child { margin-bottom: 0; }
+.sdi-faq__a a { color: var(--brand-primary); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ============================================================
    Prose (case-study & generic page content from the editor)
    ============================================================ */
 .sdi-prose { color: var(--text-body); font-size: 16px; line-height: 1.7; }

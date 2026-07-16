@@ -4,6 +4,20 @@ Thème sur-mesure pour **SDi — Solutions Digitales Intégrées** (sdi-connect.
 agence web & IA à Dijon et Paris. Recréation haute-fidélité de la refonte « Claude
 Design » dans un thème WordPress natif, sans page builder ni dépendance à un plugin.
 
+## Nouveautés v1.0.1
+
+- **12 nouvelles pages SEO** créées automatiquement à la mise à jour du thème
+  (services détaillés, IA, zones locales) — voir « Pages marketing (v1.0.1) ».
+- **Compatibilité Yoast / Rank Math** : si un plugin SEO est actif, le thème lui
+  cède le titre, la meta description, l'Open Graph et le fil d'ariane. Il conserve
+  toutefois le schema **LocalBusiness + AggregateRating** (4,9/109 avis) et le
+  schema **FAQ**, que Yoast gratuit ne fournit pas.
+- **Mega titles + meta descriptions** pré-remplis dans Yoast pour chaque page.
+- **Correction de contenu** : plus aucune mention de « sans sous-traitance / en
+  interne » (formulations neutres axées interlocuteur unique et maîtrise
+  de bout en bout).
+- **Maillage interne** renforcé (footer, pages zones ↔ services, FAQ).
+
 ## Pile & principes
 
 - WordPress natif (thème classique PHP), **aucune dépendance externe obligatoire**.
@@ -42,6 +56,37 @@ Design » dans un thème WordPress natif, sans page builder ni dépendance à un
 | `header.php` / `footer.php` | Layout partagé (nav, footer, barre mobile) |
 | `template-parts/chatbot.php` | Widget chatbot flottant (démo) |
 | `inc/` | icons · components · cpt · seo · contact |
+
+## Pages marketing (v1.0.1)
+
+Ces pages sont **créées automatiquement** dès que le thème passe en v1.0.1
+(à l'activation, ou au premier chargement de l'admin après mise à jour), avec leurs
+**mega title + meta description Yoast** déjà renseignés :
+
+| Slug | Page |
+|---|---|
+| `creation-site-internet` | Création de site internet |
+| `site-e-commerce` | Site e-commerce |
+| `referencement-seo` | Référencement SEO |
+| `google-ads` | Google Ads |
+| `saas-sur-mesure` | SaaS sur-mesure |
+| `agents-ia-sur-mesure` | Agents IA sur-mesure |
+| `automatisation-ia` | Automatisation IA |
+| `agence-web-dijon` | Agence web Dijon |
+| `seo-dijon-cote-dor` | SEO Dijon & Côte-d'Or |
+| `agence-web-paris` | Agence web Paris |
+| `seo-national` | SEO national |
+| `france-entiere` | France entière |
+
+Le **contenu et le design** de ces pages vivent dans le thème
+(`inc/landing-data.php` + `inc/landing.php`, rendus via `page.php`). Pour modifier
+un texte, éditez `inc/landing-data.php`. Les titres/descriptions Yoast restent
+modifiables normalement depuis l'encart Yoast de chaque page.
+
+> **Import manuel (optionnel)** : un fichier `sdi-pages-v1.0.1.wxr.xml` est fourni
+> pour créer ces pages via **Outils → Importer → WordPress**, si vous préférez.
+> **N'utilisez qu'UNE méthode** : soit la création automatique du thème, soit
+> l'import WXR — pas les deux, pour éviter les doublons.
 
 ## Gérer les réalisations (études de cas)
 

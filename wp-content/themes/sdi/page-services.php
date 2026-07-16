@@ -34,7 +34,7 @@ $groups = array(
 		),
 	),
 	array(
-		'eyebrow' => '// Produit & IA', 'accent' => 'var(--brand-primary)', 'title' => 'Vos outils métier et vos agents IA, développés en interne.', 'mt' => 'clamp(44px,5vw,64px)',
+		'eyebrow' => '// Produit & IA', 'accent' => 'var(--brand-primary)', 'title' => 'Vos outils métier et vos agents IA, conçus et pilotés de bout en bout.', 'mt' => 'clamp(44px,5vw,64px)',
 		'services' => array(
 			array( 'icon' => 'boxes', 'title' => 'SaaS & applications sur-mesure', 'desc' => 'Nous développons vos plateformes métier, de la conception au déploiement.', 'points' => array( 'Cadrage produit & UX', 'Développement full-stack', 'Maintenance & évolutions' ), 'iconBg' => 'var(--gradient-brand)', 'iconColor' => '#fff' ),
 			array( 'icon' => 'bot', 'title' => 'Agents IA sur-mesure', 'desc' => 'Des assistants intelligents connectés à vos outils, qui automatisent votre quotidien.', 'points' => array( 'Chatbots & support 24/7', 'Automatisation des process', 'Connexion à vos données' ), 'iconBg' => 'linear-gradient(135deg,var(--cyan-500),var(--blue-500))', 'iconColor' => '#fff' ),
@@ -51,7 +51,7 @@ $groups = array(
 
 $pillars = array(
 	array( 'user-check', 'Interlocuteur unique', 'Une seule équipe, du branding au déploiement.', 0 ),
-	array( 'code', 'On code nos produits', 'Maîtrise technique de bout en bout, sans sous-traitance.', 60 ),
+	array( 'code', 'Expertise technique', 'Une maîtrise produit de la conception au déploiement.', 60 ),
 	array( 'map-pin', 'Local & national', 'Proximité dijonnaise, siège à Paris, livraison partout.', 120 ),
 	array( 'trending-up', 'Résultats mesurables', 'Chaque projet est cadré par des objectifs concrets.', 180 ),
 );
@@ -67,7 +67,7 @@ get_header();
 		<?php echo sdi_breadcrumb( array( array( 'label' => 'Accueil', 'href' => home_url( '/' ) ), array( 'label' => 'Services' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<div class="sdi-reveal sdi-eyebrow sdi-eyebrow--pill" data-reveal style="margin-top:22px;color:var(--cyan-400);font-weight:500;">// Nos expertises</div>
 		<h1 class="sdi-reveal" data-reveal data-reveal-delay="80" style="margin-top:22px;max-width:900px;font-family:var(--font-display);font-weight:700;font-size:clamp(34px,5vw,60px);line-height:1.05;letter-spacing:-0.03em;color:var(--white);text-wrap:balance;">Tout le spectre digital, porté par une seule équipe.</h1>
-		<p class="sdi-reveal" data-reveal data-reveal-delay="160" style="margin-top:22px;max-width:640px;font-size:clamp(17px,1.4vw,20px);line-height:1.6;color:var(--navy-300);">Sites internet, e-commerce, référencement, applications métier, agents IA : nous couvrons chaque étape de votre présence numérique, sans sous-traitance, à Dijon comme partout en France.</p>
+		<p class="sdi-reveal" data-reveal data-reveal-delay="160" style="margin-top:22px;max-width:640px;font-size:clamp(17px,1.4vw,20px);line-height:1.6;color:var(--navy-300);">Sites internet, e-commerce, référencement, applications métier, agents IA : nous couvrons chaque étape de votre présence numérique, de la stratégie à la mise en ligne, à Dijon comme partout en France.</p>
 		<div class="sdi-reveal" data-reveal data-reveal-delay="240" style="margin-top:32px;display:flex;flex-wrap:wrap;gap:14px;">
 			<a href="<?php echo esc_url( sdi_page_url( 'contact' ) ); ?>" class="sdi-btn sdi-btn--primary sdi-btn--lg">Discuter de mon projet</a>
 			<a href="<?php echo esc_url( sdi_page_url( 'realisations' ) ); ?>" class="sdi-ghost-dark">Voir nos réalisations</a>

@@ -25,7 +25,7 @@ $counters = array(
 
 $values = array(
 	array( 'user-check', 'Interlocuteur unique', 'Une seule équipe pilote votre projet, du début à la fin.', 0 ),
-	array( 'code', 'Maîtrise technique', 'Nous codons nos produits en interne, sans sous-traitance.', 60 ),
+	array( 'code', 'Maîtrise technique', 'Nous pilotons la conception de nos produits de bout en bout.', 60 ),
 	array( 'heart-handshake', 'Relation durable', 'La majorité de nos clients nous restent fidèles dans le temps.', 120 ),
 	array( 'sparkles', 'Innovation utile', "L'IA et la tech au service d'un résultat concret, jamais du gadget.", 180 ),
 );
@@ -69,7 +69,7 @@ get_header();
 			</div>
 			<div class="sdi-reveal" data-reveal data-reveal-delay="80" style="display:flex;flex-direction:column;gap:16px;font-size:16px;line-height:1.65;color:var(--text-muted);">
 				<p>SDi est née d'une conviction : les entreprises méritent un partenaire digital qui comprenne à la fois la technique et les enjeux business. Pas une agence de communication de plus, mais un vrai studio produit.</p>
-				<p>Au fil des années, nous avons élargi notre spectre — du site vitrine aux plateformes SaaS, jusqu'aux agents IA que nous concevons aujourd'hui. Toujours en interne, toujours avec la même exigence.</p>
+				<p>Au fil des années, nous avons élargi notre spectre — du site vitrine aux plateformes SaaS, jusqu'aux agents IA que nous concevons aujourd'hui. Toujours avec la même exigence.</p>
 				<p>Aujourd'hui, notre ancrage dijonnais nous garde proches du tissu local, tandis que notre siège parisien nous permet de mener des projets d'envergure nationale.</p>
 			</div>
 		</div>

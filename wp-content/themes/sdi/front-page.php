@@ -30,12 +30,12 @@ $clients = array(
 );
 
 $services = array(
-	array( 'icon' => 'layout-template', 'title' => 'Création de site internet', 'desc' => 'Sites vitrines sur-mesure, rapides et pensés pour convertir vos visiteurs en clients.', 'href' => sdi_page_url( 'services' ), 'delay' => 0, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
-	array( 'icon' => 'shopping-bag', 'title' => 'Site e-commerce', 'desc' => 'Boutiques en ligne performantes, du catalogue au paiement, prêtes à vendre.', 'href' => sdi_page_url( 'services' ), 'delay' => 60, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
-	array( 'icon' => 'search', 'title' => 'Référencement SEO', 'desc' => 'Une visibilité durable sur Google, avec une priorité forte au SEO local dijonnais.', 'href' => sdi_page_url( 'services' ), 'delay' => 120, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
-	array( 'icon' => 'target', 'title' => 'Google Ads & Webmarketing', 'desc' => 'Des campagnes rentables, pilotées à la donnée, pour générer des leads qualifiés.', 'href' => sdi_page_url( 'services' ), 'delay' => 0, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
-	array( 'icon' => 'boxes', 'title' => 'SaaS & applications sur-mesure', 'desc' => 'Nous développons vos outils métier et plateformes SaaS, de la conception au déploiement.', 'href' => sdi_page_url( 'services' ), 'delay' => 60, 'tag' => 'Produit', 'tagColor' => 'var(--brand-primary)', 'tagBg' => 'var(--blue-50)', 'border' => 'var(--blue-200)', 'iconBg' => 'var(--gradient-brand)', 'iconColor' => '#fff' ),
-	array( 'icon' => 'bot', 'title' => 'Agents IA sur-mesure', 'desc' => 'Des assistants intelligents connectés à vos outils, qui automatisent votre quotidien.', 'href' => sdi_page_url( 'agents-ia' ), 'delay' => 120, 'tag' => 'IA', 'tagColor' => 'var(--cyan-500)', 'tagBg' => 'rgba(0,165,228,0.1)', 'border' => 'rgba(0,165,228,0.4)', 'iconBg' => 'linear-gradient(135deg,var(--cyan-500),var(--blue-500))', 'iconColor' => '#fff' ),
+	array( 'icon' => 'layout-template', 'title' => 'Création de site internet', 'desc' => 'Sites vitrines sur-mesure, rapides et pensés pour convertir vos visiteurs en clients.', 'href' => sdi_page_url( 'creation-site-internet' ), 'delay' => 0, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
+	array( 'icon' => 'shopping-bag', 'title' => 'Site e-commerce', 'desc' => 'Boutiques en ligne performantes, du catalogue au paiement, prêtes à vendre.', 'href' => sdi_page_url( 'site-e-commerce' ), 'delay' => 60, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
+	array( 'icon' => 'search', 'title' => 'Référencement SEO', 'desc' => 'Une visibilité durable sur Google, avec une priorité forte au SEO local dijonnais.', 'href' => sdi_page_url( 'referencement-seo' ), 'delay' => 120, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
+	array( 'icon' => 'target', 'title' => 'Google Ads & Webmarketing', 'desc' => 'Des campagnes rentables, pilotées à la donnée, pour générer des leads qualifiés.', 'href' => sdi_page_url( 'google-ads' ), 'delay' => 0, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
+	array( 'icon' => 'boxes', 'title' => 'SaaS & applications sur-mesure', 'desc' => 'Nous développons vos outils métier et plateformes SaaS, de la conception au déploiement.', 'href' => sdi_page_url( 'saas-sur-mesure' ), 'delay' => 60, 'tag' => 'Produit', 'tagColor' => 'var(--brand-primary)', 'tagBg' => 'var(--blue-50)', 'border' => 'var(--blue-200)', 'iconBg' => 'var(--gradient-brand)', 'iconColor' => '#fff' ),
+	array( 'icon' => 'bot', 'title' => 'Agents IA sur-mesure', 'desc' => 'Des assistants intelligents connectés à vos outils, qui automatisent votre quotidien.', 'href' => sdi_page_url( 'agents-ia-sur-mesure' ), 'delay' => 120, 'tag' => 'IA', 'tagColor' => 'var(--cyan-500)', 'tagBg' => 'rgba(0,165,228,0.1)', 'border' => 'rgba(0,165,228,0.4)', 'iconBg' => 'linear-gradient(135deg,var(--cyan-500),var(--blue-500))', 'iconColor' => '#fff' ),
 	array( 'icon' => 'server', 'title' => 'Hébergement & infogérance', 'desc' => 'Infrastructure sécurisée, supervisée et maintenue en continu par nos équipes.', 'href' => sdi_page_url( 'services' ), 'delay' => 0, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
 	array( 'icon' => 'palette', 'title' => 'Communication & branding', 'desc' => 'Identité de marque, direction artistique et supports qui vous démarquent vraiment.', 'href' => sdi_page_url( 'services' ), 'delay' => 60, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
 );
@@ -49,7 +49,7 @@ $ia_caps = array(
 
 $diffs = array(
 	array( 'map-pin', 'Local & national', 'Ancrés à Dijon, à vos côtés, mais capables de livrer partout en France.', 0 ),
-	array( 'code', 'On code nos produits', 'SaaS et agents IA maison : nous maîtrisons la technique de bout en bout.', 60 ),
+	array( 'code', 'Expertise produit', 'SaaS et agents IA : nous maîtrisons la technique, de la conception au déploiement.', 60 ),
 	array( 'user-check', 'Interlocuteur unique', 'Du branding au déploiement, une seule équipe pilote votre projet.', 120 ),
 	array( 'trending-up', 'Résultats mesurables', 'Chaque projet est cadré par des objectifs concrets et des chiffres.', 180 ),
 );
@@ -178,7 +178,7 @@ get_header();
 		<div class="sdi-reveal" data-reveal style="max-width:720px;">
 			<span class="sdi-eyebrow" style="color:var(--brand-primary);">// Nos expertises</span>
 			<h2 class="sdi-h2" style="margin-top:16px;">Une seule équipe, tout le spectre digital.</h2>
-			<p class="sdi-lead" style="margin-top:18px;">Du site vitrine à la plateforme SaaS, de la visibilité Google aux agents IA : nous couvrons chaque étape de votre présence numérique, sans sous-traitance.</p>
+			<p class="sdi-lead" style="margin-top:18px;">Du site vitrine à la plateforme SaaS, de la visibilité Google aux agents IA : nous couvrons chaque étape de votre présence numérique, de la stratégie à la mise en ligne.</p>
 		</div>
 		<div style="margin-top:36px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
 			<?php foreach ( $services as $s ) : ?>
