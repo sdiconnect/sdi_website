@@ -149,7 +149,7 @@ get_header();
 						$hidden = $dup ? ' aria-hidden="true"' : '';
 						$alt    = $dup ? '' : $logo['alt'];
 						echo '<span' . $hidden . ' style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 clamp(30px,3.8vw,60px);">';
-						echo '<img src="' . esc_url( $logo['url'] ) . '" alt="' . esc_attr( $alt ) . '" style="height:100%;max-height:46px;width:auto;object-fit:contain;opacity:0.72;filter:brightness(1.1);">';
+						echo '<img src="' . esc_url( $logo['url'] ) . '" alt="' . esc_attr( $alt ) . '" class="sdi-client-logo" loading="lazy" style="height:100%;max-height:46px;width:auto;object-fit:contain;">';
 						echo '</span>';
 					}
 				}
