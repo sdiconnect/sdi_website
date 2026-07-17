@@ -14,6 +14,10 @@
   var SPARK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2.8a1 1 0 0 1 2 0l1 5.3a2 2 0 0 0 1.6 1.6l5.3 1a1 1 0 0 1 0 2l-5.3 1a2 2 0 0 0-1.6 1.6l-1 5.3a1 1 0 0 1-2 0l-1-5.3a2 2 0 0 0-1.6-1.6l-5.3-1a1 1 0 0 1 0-2l5.3-1A2 2 0 0 0 10 8.1z"/></svg>';
   var SEND  = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 21.7a.5.5 0 0 0 .94-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.9 3.2a2 2 0 0 1 1.1 1.1z"/><path d="m21.85 2.15-10.94 10.94"/></svg>';
   var CLOSE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+  var MINIMIZE = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h12"/></svg>';
+
+  // Agent avatar: photo when set in the back office, else the spark glyph.
+  var AVATAR = cfg.avatar ? '<img class="sdi-ai__ava-img" src="' + esc(cfg.avatar) + '" alt="">' : SPARK;
 
   function el(tag, cls, html) {
     var e = document.createElement(tag);
@@ -30,16 +34,16 @@
   var launcher = el('button', 'sdi-ai__launcher');
   launcher.type = 'button';
   launcher.setAttribute('aria-label', cfg.buttonLabel || 'Parler à un agent IA');
-  launcher.innerHTML = '<span class="sdi-ai__spark">' + SPARK + '</span><span class="sdi-ai__launcher-label">' + esc(cfg.buttonLabel || 'Parler à un agent IA') + '</span><span class="sdi-ai__launcher-dot"></span>';
+  launcher.innerHTML = '<span class="sdi-ai__spark' + (cfg.avatar ? ' sdi-ai__spark--ava' : '') + '">' + AVATAR + '</span><span class="sdi-ai__launcher-label">' + esc(cfg.buttonLabel || 'Parler à un agent IA') + '</span><span class="sdi-ai__launcher-dot"></span>';
 
   var panel = el('div', 'sdi-ai__panel');
   panel.setAttribute('role', 'dialog');
   panel.setAttribute('aria-label', cfg.agentName || 'Agent IA');
   panel.innerHTML =
     '<div class="sdi-ai__head">' +
-      '<span class="sdi-ai__avatar">' + SPARK + '</span>' +
+      '<span class="sdi-ai__avatar' + (cfg.avatar ? ' sdi-ai__avatar--ava' : '') + '">' + AVATAR + '</span>' +
       '<div class="sdi-ai__head-txt"><div class="sdi-ai__name">' + esc(cfg.agentName || 'Conseiller IA') + '</div><div class="sdi-ai__status"><i></i>En ligne · propulsé par IA</div></div>' +
-      '<button type="button" class="sdi-ai__close" data-close aria-label="Réduire la fenêtre" title="Réduire">' + CLOSE + '<span class="sdi-ai__close-label">Réduire</span></button>' +
+      '<button type="button" class="sdi-ai__close" data-close aria-label="Réduire la fenêtre" title="Réduire">' + MINIMIZE + '<span class="sdi-ai__close-label">Réduire</span></button>' +
     '</div>' +
     '<div class="sdi-ai__body" data-body></div>' +
     '<div class="sdi-ai__foot">' +

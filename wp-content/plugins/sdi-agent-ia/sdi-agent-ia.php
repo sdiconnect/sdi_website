@@ -3,7 +3,7 @@
  * Plugin Name:       SDi Agent IA
  * Plugin URI:        https://sdi-connect.com
  * Description:        Agent conversationnel IA (chatbot) pour le site SDi : widget flottant « Parler à un agent commercial IA », propulsé par Mistral, avec export de la discussion par e-mail. Paramétrable depuis Réglages → SDi Agent IA.
- * Version:           1.0.3
+ * Version:           1.0.4
  * Author:            SDi — Solutions Digitales Intégrées
  * Author URI:        https://sdi-connect.com
  * License:           GPL-2.0-or-later
@@ -14,7 +14,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'SDI_AI_VERSION', '1.0.3' );
+define( 'SDI_AI_VERSION', '1.0.4' );
 define( 'SDI_AI_FILE', __FILE__ );
 define( 'SDI_AI_URL', plugin_dir_url( __FILE__ ) );
 define( 'SDI_AI_DIR', plugin_dir_path( __FILE__ ) );
@@ -29,6 +29,7 @@ function sdi_ai_defaults() {
 	return array(
 		'enabled'       => 1,
 		'agent_name'    => 'Conseiller IA SDi',
+		'avatar'        => '',
 		'button_label'  => 'Parler à un agent commercial IA',
 		'welcome'       => "Bonjour 👋 Je suis le conseiller IA de SDi. Posez-moi vos questions sur nos services (sites web, e-commerce, SEO, agents IA…) ou décrivez votre projet — je vous oriente tout de suite.",
 		'provider'      => 'mistral',
@@ -89,6 +90,7 @@ function sdi_ai_enqueue() {
 			'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
 			'nonce'        => wp_create_nonce( 'sdi_ai' ),
 			'agentName'    => sdi_ai_get( 'agent_name' ),
+			'avatar'       => sdi_ai_get( 'avatar' ),
 			'buttonLabel'  => sdi_ai_get( 'button_label' ),
 			'welcome'      => sdi_ai_get( 'welcome' ),
 			'accent'       => sdi_ai_get( 'accent' ),

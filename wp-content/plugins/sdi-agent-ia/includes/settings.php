@@ -30,6 +30,18 @@ function sdi_ai_register_settings() {
 add_action( 'admin_init', 'sdi_ai_register_settings' );
 
 /**
+ * Load the WordPress media library on the plugin settings screen (avatar picker).
+ *
+ * @param string $hook Current admin page hook.
+ */
+function sdi_ai_admin_assets( $hook ) {
+	if ( 'settings_page_sdi-agent-ia' === $hook ) {
+		wp_enqueue_media();
+	}
+}
+add_action( 'admin_enqueue_scripts', 'sdi_ai_admin_assets' );
+
+/**
  * Sanitize settings on save.
  *
  * @param array $input Raw input.
@@ -42,6 +54,7 @@ function sdi_ai_sanitize( $input ) {
 	$out['enabled']       = empty( $in['enabled'] ) ? 0 : 1;
 	$out['collect_email'] = empty( $in['collect_email'] ) ? 0 : 1;
 	$out['agent_name']    = isset( $in['agent_name'] ) ? sanitize_text_field( $in['agent_name'] ) : $out['agent_name'];
+	$out['avatar']        = isset( $in['avatar'] ) ? esc_url_raw( trim( $in['avatar'] ) ) : $out['avatar'];
 	$out['button_label']  = isset( $in['button_label'] ) ? sanitize_text_field( $in['button_label'] ) : $out['button_label'];
 	$out['welcome']       = isset( $in['welcome'] ) ? sanitize_textarea_field( $in['welcome'] ) : $out['welcome'];
 	$out['provider']      = ( isset( $in['provider'] ) && in_array( $in['provider'], array( 'mistral', 'openai' ), true ) ) ? $in['provider'] : 'mistral';
@@ -100,6 +113,20 @@ function sdi_ai_settings_page() {
 				<tr>
 					<th scope="row"><label for="sdi_ai_agent_name">Nom de l'agent</label></th>
 					<td><input type="text" id="sdi_ai_agent_name" class="regular-text" name="<?php echo esc_attr( SDI_AI_OPTION ); ?>[agent_name]" value="<?php echo esc_attr( $o['agent_name'] ); ?>"></td>
+				</tr>
+				<tr>
+					<th scope="row">Photo de profil</th>
+					<td>
+						<div id="sdi_ai_avatar_preview" style="width:64px;height:64px;border-radius:14px;overflow:hidden;background:#eef2f7;border:1px solid #dcdfe5;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;">
+							<?php if ( $o['avatar'] ) : ?><img src="<?php echo esc_url( $o['avatar'] ); ?>" style="width:100%;height:100%;object-fit:cover;"><?php else : ?><span style="color:#9aa0a6;font-size:11px;">Aucune</span><?php endif; ?>
+						</div>
+						<span style="display:inline-block;vertical-align:middle;margin-left:12px;">
+							<input type="hidden" id="sdi_ai_avatar" name="<?php echo esc_attr( SDI_AI_OPTION ); ?>[avatar]" value="<?php echo esc_attr( $o['avatar'] ); ?>">
+							<button type="button" class="button" id="sdi_ai_avatar_pick">Choisir une image</button>
+							<button type="button" class="button-link" id="sdi_ai_avatar_remove" style="margin-left:8px;color:#b32d2e;<?php echo $o['avatar'] ? '' : 'display:none;'; ?>">Retirer</button>
+						</span>
+						<p class="description">Photo affichée dans l'en-tête du chat et sur le bouton. Format carré recommandé (ex. 256×256).</p>
+					</td>
 				</tr>
 				<tr>
 					<th scope="row"><label for="sdi_ai_welcome">Message d'accueil</label></th>
@@ -163,5 +190,29 @@ function sdi_ai_settings_page() {
 			<?php submit_button( 'Enregistrer les réglages' ); ?>
 		</form>
 	</div>
+	<script>
+	( function ( $ ) {
+		var frame;
+		$( '#sdi_ai_avatar_pick' ).on( 'click', function ( e ) {
+			e.preventDefault();
+			if ( frame ) { frame.open(); return; }
+			frame = wp.media( { title: 'Photo de profil de l\'agent', button: { text: 'Utiliser cette image' }, multiple: false } );
+			frame.on( 'select', function () {
+				var a = frame.state().get( 'selection' ).first().toJSON();
+				var url = ( a.sizes && a.sizes.thumbnail ) ? a.sizes.thumbnail.url : a.url;
+				$( '#sdi_ai_avatar' ).val( url );
+				$( '#sdi_ai_avatar_preview' ).html( '<img src="' + url + '" style="width:100%;height:100%;object-fit:cover;">' );
+				$( '#sdi_ai_avatar_remove' ).show();
+			} );
+			frame.open();
+		} );
+		$( '#sdi_ai_avatar_remove' ).on( 'click', function ( e ) {
+			e.preventDefault();
+			$( '#sdi_ai_avatar' ).val( '' );
+			$( '#sdi_ai_avatar_preview' ).html( '<span style="color:#9aa0a6;font-size:11px;">Aucune</span>' );
+			$( this ).hide();
+		} );
+	} )( jQuery );
+	</script>
 	<?php
 }

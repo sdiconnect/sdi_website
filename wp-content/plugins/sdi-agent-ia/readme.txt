@@ -4,7 +4,7 @@ Tags: chatbot, ai, mistral, lead generation, chat
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 
 Agent conversationnel IA (chatbot) pour le site SDi : widget flottant
@@ -45,6 +45,10 @@ Les appels au modèle sont effectués depuis le serveur WordPress.
 * Sans clé API, le widget fonctionne en mode « capture de lead » (message d'attente + envoi par e-mail).
 
 == Changelog ==
+
+= 1.0.4 =
+* Photo de profil de l'agent, gérable depuis le back-office (médiathèque WordPress) : affichée dans l'en-tête du chat et sur le bouton.
+* Icône « Réduire » remplacée par une barre de minimisation (l'outil reste accessible, simplement réduit).
 
 = 1.0.3 =
 * E-mail de demande repensé : compte-rendu synthétique (généré par l'IA) au lieu de toute la conversation, avec les coordonnées (nom, e-mail, téléphone) en gras.

@@ -65,7 +65,11 @@
 
 .sdi-ai__head { position: relative; background: linear-gradient(150deg, #16223D, #0B1120); padding: 16px 16px 16px 18px; display: flex; align-items: center; gap: 12px; }
 .sdi-ai__head::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 120% at 20% 0%, rgba(29,110,255,0.35), transparent 60%); pointer-events: none; }
-.sdi-ai__avatar { position: relative; width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, var(--sdi-ai-accent), #00A5E4); display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+.sdi-ai__avatar { position: relative; width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, var(--sdi-ai-accent), #00A5E4); display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; overflow: hidden; }
+.sdi-ai__avatar--ava { border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.35); }
+.sdi-ai__ava-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sdi-ai__spark--ava { width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.35); flex-shrink: 0; }
+.sdi-ai__spark--ava .sdi-ai__ava-img { border-radius: 50%; }
 .sdi-ai__head-txt { position: relative; flex: 1; min-width: 0; }
 .sdi-ai__name { color: #fff; font-weight: 600; font-size: 15px; }
 .sdi-ai__status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #9AA8C4; }
