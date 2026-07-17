@@ -20,6 +20,36 @@ h1, h2, h3, h4, p { margin: 0; }
 
 .sdi-icon { display: inline-flex; flex-shrink: 0; }
 .sdi-icon svg, svg.sdi-icon { display: block; }
+
+/* ============================================================
+   Premium "gradient glass" icon tiles (3D-ish, on brand)
+   ============================================================ */
+.sdi-tile3d {
+  position: relative;
+  width: 54px; height: 54px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; flex-shrink: 0;
+  background: linear-gradient(145deg, #5C97FF 0%, #1D6EFF 48%, #7C3AED 122%);
+  box-shadow: 0 10px 22px rgba(29, 110, 255, 0.30),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5),
+              inset 0 -7px 14px rgba(9, 14, 27, 0.20);
+  overflow: hidden;
+  transition: transform .3s var(--ease-signature), box-shadow .3s var(--ease-signature);
+}
+.sdi-tile3d::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(158deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.08) 40%, rgba(255, 255, 255, 0) 62%);
+}
+.sdi-tile3d .sdi-icon { position: relative; filter: drop-shadow(0 2px 3px rgba(9, 14, 27, 0.35)); }
+.sdi-tile3d--cyan {
+  background: linear-gradient(145deg, #34C9F0 0%, #00A5E4 48%, #1D6EFF 122%);
+  box-shadow: 0 10px 22px rgba(0, 165, 228, 0.30),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5),
+              inset 0 -7px 14px rgba(9, 14, 27, 0.20);
+}
+/* Lift the tile a touch when its card is hovered */
+.sdi-card:hover .sdi-tile3d,
+[data-reveal]:hover > .sdi-tile3d { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(29, 110, 255, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -7px 14px rgba(9, 14, 27, 0.20); }
 .sdi-stars { display: inline-flex; gap: 2px; color: var(--amber-500); }
 
 /* Client logos on the dark marquee: force a uniform muted-white treatment so

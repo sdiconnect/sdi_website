@@ -174,7 +174,7 @@ get_header();
 					<?php if ( ! empty( $s['tag'] ) ) : ?>
 						<span style="position:absolute;top:22px;right:22px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;padding:5px 10px;border-radius:999px;color:<?php echo esc_attr( $s['tagColor'] ); ?>;background:<?php echo esc_attr( $s['tagBg'] ); ?>;"><?php echo esc_html( $s['tag'] ); ?></span>
 					<?php endif; ?>
-					<div style="width:52px;height:52px;border-radius:15px;background:<?php echo esc_attr( $s['iconBg'] ); ?>;color:<?php echo esc_attr( $s['iconColor'] ); ?>;display:flex;align-items:center;justify-content:center;"><?php sdi_the_icon( $s['icon'], 24 ); ?></div>
+					<div class="sdi-tile3d<?php echo ( 'bot' === $s['icon'] ) ? ' sdi-tile3d--cyan' : ''; ?>"><?php sdi_the_icon( $s['icon'], 24 ); ?></div>
 					<h3 style="margin-top:20px;font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:-0.01em;color:var(--text-strong);"><?php echo esc_html( $s['title'] ); ?></h3>
 					<p style="margin-top:9px;font-size:15px;line-height:1.55;color:var(--text-muted);"><?php echo esc_html( $s['desc'] ); ?></p>
 					<a href="<?php echo esc_url( $s['href'] ); ?>" style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--brand-primary);">En savoir plus <?php sdi_the_icon( 'arrow-right', 15 ); ?></a>
@@ -202,7 +202,7 @@ get_header();
 			<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 				<?php foreach ( $ia_caps as $cap ) : ?>
 					<div class="sdi-reveal" data-reveal data-reveal-delay="<?php echo esc_attr( $cap[3] ); ?>" style="border:1px solid var(--border-inverse);border-radius:var(--radius-xl);padding:22px;background:linear-gradient(155deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-						<div style="width:46px;height:46px;border-radius:13px;background:rgba(0,165,228,0.14);color:var(--cyan-400);display:flex;align-items:center;justify-content:center;"><?php sdi_the_icon( $cap[0], 22 ); ?></div>
+						<div class="sdi-tile3d sdi-tile3d--cyan"><?php sdi_the_icon( $cap[0], 22 ); ?></div>
 						<h3 style="margin-top:16px;font-size:17px;font-weight:600;color:var(--white);"><?php echo esc_html( $cap[1] ); ?></h3>
 						<p style="margin-top:7px;font-size:14px;line-height:1.5;color:var(--navy-300);"><?php echo esc_html( $cap[2] ); ?></p>
 					</div>
@@ -222,7 +222,7 @@ get_header();
 		<div style="margin-top:36px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;">
 			<?php foreach ( $diffs as $d ) : ?>
 				<div class="sdi-reveal" data-reveal data-reveal-delay="<?php echo esc_attr( $d[3] ); ?>" style="padding:30px 26px;border-radius:var(--radius-2xl);background:var(--surface-page);border:1px solid var(--border-subtle);">
-					<div style="width:50px;height:50px;border-radius:14px;background:var(--blue-50);color:var(--brand-primary);display:flex;align-items:center;justify-content:center;"><?php sdi_the_icon( $d[0], 24 ); ?></div>
+					<div class="sdi-tile3d"><?php sdi_the_icon( $d[0], 24 ); ?></div>
 					<h3 style="margin-top:18px;font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--text-strong);letter-spacing:-0.01em;"><?php echo esc_html( $d[1] ); ?></h3>
 					<p style="margin-top:9px;font-size:15px;line-height:1.55;color:var(--text-muted);"><?php echo esc_html( $d[2] ); ?></p>
 				</div>
@@ -288,7 +288,7 @@ get_header();
 			<?php foreach ( $steps as $st ) : ?>
 				<div class="sdi-reveal" data-reveal data-reveal-delay="<?php echo esc_attr( $st[4] ); ?>" style="position:relative;padding:26px 22px;border-radius:var(--radius-2xl);border:1px solid var(--border-subtle);background:var(--surface-page);">
 					<div style="display:flex;align-items:center;justify-content:space-between;">
-						<div style="width:50px;height:50px;border-radius:14px;background:var(--blue-50);color:var(--brand-primary);display:flex;align-items:center;justify-content:center;"><?php sdi_the_icon( $st[1], 24 ); ?></div>
+						<div class="sdi-tile3d"><?php sdi_the_icon( $st[1], 24 ); ?></div>
 						<span style="font-family:var(--font-mono);font-weight:700;font-size:14px;color:var(--navy-300);letter-spacing:0.06em;"><?php echo esc_html( $st[0] ); ?></span>
 					</div>
 					<h3 style="margin-top:16px;font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--text-strong);letter-spacing:-0.01em;"><?php echo esc_html( $st[2] ); ?></h3>
