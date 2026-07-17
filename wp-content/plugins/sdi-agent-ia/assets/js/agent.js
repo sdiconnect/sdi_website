@@ -39,7 +39,7 @@
     '<div class="sdi-ai__head">' +
       '<span class="sdi-ai__avatar">' + SPARK + '</span>' +
       '<div class="sdi-ai__head-txt"><div class="sdi-ai__name">' + esc(cfg.agentName || 'Conseiller IA') + '</div><div class="sdi-ai__status"><i></i>En ligne · propulsé par IA</div></div>' +
-      '<button type="button" class="sdi-ai__close" aria-label="Fermer">' + CLOSE + '</button>' +
+      '<button type="button" class="sdi-ai__close" data-close aria-label="Réduire la fenêtre" title="Réduire">' + CLOSE + '<span class="sdi-ai__close-label">Réduire</span></button>' +
     '</div>' +
     '<div class="sdi-ai__body" data-body></div>' +
     '<div class="sdi-ai__foot">' +
@@ -50,6 +50,9 @@
       '<div class="sdi-ai__actions"><button type="button" class="sdi-ai__link" data-transcript>Être recontacté par un conseiller</button></div>' +
     '</div>';
 
+  var backdrop = el('div', 'sdi-ai__backdrop');
+  backdrop.setAttribute('aria-hidden', 'true');
+  root.appendChild(backdrop);
   root.appendChild(panel);
   root.appendChild(launcher);
 
@@ -196,9 +199,11 @@
   }
 
   launcher.addEventListener('click', open);
-  panel.querySelector('.sdi-ai__close').addEventListener('click', close);
+  panel.querySelector('[data-close]').addEventListener('click', close);
+  backdrop.addEventListener('click', close);
   sendBtn.addEventListener('click', send);
   input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('is-open')) { close(); } });
   panel.querySelector('[data-transcript]').addEventListener('click', showLeadForm);
 
   function ready(fn) { if (document.readyState !== 'loading') { fn(); } else { document.addEventListener('DOMContentLoaded', fn); } }

@@ -42,8 +42,26 @@
   display: none; flex-direction: column;
 }
 .sdi-ai.is-open .sdi-ai__panel { display: flex; animation: sdiAiIn .28s cubic-bezier(0.16,1,0.3,1); }
-@keyframes sdiAiIn { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
-@media (max-width: 720px) { .sdi-ai__panel { height: calc(100vh - 150px); } }
+@keyframes sdiAiIn { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: none; } }
+
+/* Enlarged, centered panel — takes ~75% of the viewport, anchored to the bottom,
+   so the visitor feels they can do everything here without leaving the page. */
+.sdi-ai.is-open .sdi-ai__panel {
+  width: min(75vw, 1180px);
+  height: 75vh;
+  max-height: calc(100vh - 90px);
+  border-radius: 24px;
+}
+@media (max-width: 1024px) { .sdi-ai.is-open .sdi-ai__panel { width: min(88vw, 760px); height: 80vh; } }
+@media (max-width: 720px) { .sdi-ai.is-open .sdi-ai__panel { width: calc(100vw - 20px); height: calc(100dvh - 110px); max-height: none; } }
+
+/* Dimmed backdrop to focus the conversation (click to minimize) */
+.sdi-ai__backdrop {
+  position: fixed; inset: 0; z-index: -1; opacity: 0; pointer-events: none;
+  background: rgba(9, 14, 27, 0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  transition: opacity .28s ease;
+}
+.sdi-ai.is-open .sdi-ai__backdrop { opacity: 1; pointer-events: auto; }
 
 .sdi-ai__head { position: relative; background: linear-gradient(150deg, #16223D, #0B1120); padding: 16px 16px 16px 18px; display: flex; align-items: center; gap: 12px; }
 .sdi-ai__head::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 120% at 20% 0%, rgba(29,110,255,0.35), transparent 60%); pointer-events: none; }
@@ -52,8 +70,10 @@
 .sdi-ai__name { color: #fff; font-weight: 600; font-size: 15px; }
 .sdi-ai__status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #9AA8C4; }
 .sdi-ai__status i { width: 7px; height: 7px; border-radius: 50%; background: #34D399; display: inline-block; }
-.sdi-ai__close { position: relative; width: 32px; height: 32px; border-radius: 9px; border: none; background: rgba(255,255,255,0.12); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.sdi-ai__close:hover { background: rgba(255,255,255,0.2); }
+.sdi-ai__close { position: relative; display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 14px 0 12px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.32); background: rgba(255,255,255,0.16); color: #fff; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; transition: background .18s, transform .18s; }
+.sdi-ai__close:hover { background: #fff; color: #0F172A; transform: translateY(-1px); }
+.sdi-ai__close .sdi-ai__close-label { white-space: nowrap; }
+@media (max-width: 520px) { .sdi-ai__close { padding: 0; width: 40px; justify-content: center; } .sdi-ai__close .sdi-ai__close-label { display: none; } }
 
 .sdi-ai__body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; background: #F4F7FB; }
 .sdi-ai__msg { max-width: 84%; padding: 11px 14px; font-size: 14.5px; line-height: 1.5; border-radius: 16px; white-space: pre-wrap; word-wrap: break-word; }
