@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'SDI_VERSION', '1.0.2' );
+define( 'SDI_VERSION', '1.0.3' );
 define( 'SDI_DIR', get_template_directory() );
 define( 'SDI_URI', get_template_directory_uri() );
 
@@ -195,8 +195,72 @@ function sdi_customize( $wp_customize ) {
 		$wp_customize->add_setting( "sdi_review{$i}_rating", array( 'default' => 5, 'sanitize_callback' => 'absint' ) );
 		$wp_customize->add_control( "sdi_review{$i}_rating", array( 'label' => sprintf( __( 'Avis %d — Étoiles (1-5)', 'sdi' ), $i ), 'section' => 'sdi_reviews', 'type' => 'number', 'input_attrs' => array( 'min' => 1, 'max' => 5 ) ) );
 	}
+
+	/* ---- Logos clients (bandeau « Ils nous font confiance ») ---- */
+	$wp_customize->add_section( 'sdi_clients', array( 'title' => __( 'SDi — Logos clients', 'sdi' ), 'priority' => 42, 'description' => __( '12 emplacements. Laissez vide un emplacement pour le masquer. Format PNG transparent conseillé.', 'sdi' ) ) );
+	$logo_defaults = sdi_default_client_logos();
+	for ( $i = 1; $i <= 12; $i++ ) {
+		$d = isset( $logo_defaults[ $i - 1 ] ) ? $logo_defaults[ $i - 1 ] : array( 'url' => '', 'alt' => '' );
+
+		$wp_customize->add_setting( "sdi_client_logo_{$i}", array( 'default' => $d['url'], 'sanitize_callback' => 'esc_url_raw' ) );
+		$wp_customize->add_control(
+			new WP_Customize_Image_Control(
+				$wp_customize,
+				"sdi_client_logo_{$i}",
+				array( 'label' => sprintf( __( 'Logo %d', 'sdi' ), $i ), 'section' => 'sdi_clients' )
+			)
+		);
+
+		$wp_customize->add_setting( "sdi_client_alt_{$i}", array( 'default' => $d['alt'], 'sanitize_callback' => 'sanitize_text_field' ) );
+		$wp_customize->add_control( "sdi_client_alt_{$i}", array( 'label' => sprintf( __( 'Logo %d — nom (texte alternatif)', 'sdi' ), $i ), 'section' => 'sdi_clients', 'type' => 'text' ) );
+	}
 }
 add_action( 'customize_register', 'sdi_customize' );
+
+/**
+ * Default client logos (bundled assets) — also the Customizer defaults.
+ *
+ * @return array List of array('url'=>, 'alt'=>). Slot 12 is left empty by default.
+ */
+function sdi_default_client_logos() {
+	$base = SDI_URI . '/assets/clients/';
+	return array(
+		array( 'url' => $base . 'tereos.png', 'alt' => 'Tereos' ),
+		array( 'url' => $base . 'sephora.png', 'alt' => 'Sephora' ),
+		array( 'url' => $base . 'orvitis.png', 'alt' => "Orvitis en Côte-d'Or" ),
+		array( 'url' => $base . 'dijon-cereales.png', 'alt' => 'Dijon Céréales' ),
+		array( 'url' => $base . 'erde.png', 'alt' => 'ERDÉ' ),
+		array( 'url' => $base . 'banque-populaire.png', 'alt' => 'Banque Populaire' ),
+		array( 'url' => $base . 'cae-bourgogne.png', 'alt' => 'CAE Bourgogne' ),
+		array( 'url' => $base . 'ghitti.png', 'alt' => 'Ghitti Immobilier' ),
+		array( 'url' => $base . 'krys.png', 'alt' => 'Krys' ),
+		array( 'url' => $base . 'nature-decouvertes.png', 'alt' => 'Nature & Découvertes' ),
+		array( 'url' => $base . 'ville-dijon.png', 'alt' => 'Ville de Dijon' ),
+		array( 'url' => '', 'alt' => '' ),
+	);
+}
+
+/**
+ * Client logos for display, read from the Customizer (12 slots), skipping empty ones.
+ *
+ * @return array List of array('url'=>, 'alt'=>).
+ */
+function sdi_get_client_logos() {
+	$defaults = sdi_default_client_logos();
+	$out      = array();
+	for ( $i = 1; $i <= 12; $i++ ) {
+		$d   = isset( $defaults[ $i - 1 ] ) ? $defaults[ $i - 1 ] : array( 'url' => '', 'alt' => '' );
+		$url = get_theme_mod( "sdi_client_logo_{$i}", $d['url'] );
+		if ( ! $url ) {
+			continue;
+		}
+		$out[] = array(
+			'url' => $url,
+			'alt' => get_theme_mod( "sdi_client_alt_{$i}", $d['alt'] ),
+		);
+	}
+	return $out;
+}
 
 /**
  * Default reviews (also the Customizer defaults).

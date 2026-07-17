@@ -15,19 +15,7 @@ sdi_set_seo(
 	)
 );
 
-$clients = array(
-	array( 'tereos.png', 'Tereos' ),
-	array( 'sephora.png', 'Sephora' ),
-	array( 'orvitis.png', "Orvitis en Côte-d'Or" ),
-	array( 'dijon-cereales.png', 'Dijon Céréales' ),
-	array( 'erde.png', 'ERDÉ' ),
-	array( 'banque-populaire.png', 'Banque Populaire' ),
-	array( 'cae-bourgogne.png', 'CAE Bourgogne' ),
-	array( 'ghitti.png', 'Ghitti Immobilier' ),
-	array( 'krys.png', 'Krys' ),
-	array( 'nature-decouvertes.png', 'Nature & Découvertes' ),
-	array( 'ville-dijon.png', 'Ville de Dijon' ),
-);
+$client_logos = sdi_get_client_logos();
 
 $services = array(
 	array( 'icon' => 'layout-template', 'title' => 'Création de site internet', 'desc' => 'Sites vitrines sur-mesure, rapides et pensés pour convertir vos visiteurs en clients.', 'href' => sdi_page_url( 'creation-site-internet' ), 'delay' => 0, 'border' => 'var(--border-subtle)', 'iconBg' => 'var(--blue-50)', 'iconColor' => 'var(--brand-primary)' ),
@@ -148,19 +136,20 @@ get_header();
 	</div>
 </section>
 
-<!-- ============ 2. LOGOS CLIENTS (marquee) ============ -->
+<!-- ============ 2. LOGOS CLIENTS (marquee pleine largeur) ============ -->
+<?php if ( ! empty( $client_logos ) ) : ?>
 <section style="background:var(--navy-950);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);overflow:hidden;">
-	<div style="max-width:1240px;margin:0 auto;padding:clamp(34px,4vw,48px) 0;">
+	<div style="padding:clamp(34px,4vw,48px) 0;">
 		<p style="text-align:center;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:var(--tracking-caps);font-size:12px;color:var(--navy-400);font-weight:500;padding:0 24px;">Ils nous font confiance, du local au national</p>
-		<div data-marquee style="margin-top:28px;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);">
+		<div data-marquee style="margin-top:28px;position:relative;width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);">
 			<div data-marquee-track style="display:flex;width:max-content;align-items:center;">
 				<?php
 				for ( $dup = 0; $dup < 2; $dup++ ) {
-					foreach ( $clients as $c ) {
+					foreach ( $client_logos as $logo ) {
 						$hidden = $dup ? ' aria-hidden="true"' : '';
-						$alt    = $dup ? '' : $c[1];
-						echo '<span' . $hidden . ' style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 clamp(28px,3.4vw,52px);">';
-						echo '<img src="' . esc_url( SDI_URI . '/assets/clients/' . $c[0] ) . '" alt="' . esc_attr( $alt ) . '" style="height:100%;max-height:44px;width:auto;object-fit:contain;opacity:0.72;filter:brightness(1.1);">';
+						$alt    = $dup ? '' : $logo['alt'];
+						echo '<span' . $hidden . ' style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 clamp(30px,3.8vw,60px);">';
+						echo '<img src="' . esc_url( $logo['url'] ) . '" alt="' . esc_attr( $alt ) . '" style="height:100%;max-height:46px;width:auto;object-fit:contain;opacity:0.72;filter:brightness(1.1);">';
 						echo '</span>';
 					}
 				}
@@ -169,6 +158,7 @@ get_header();
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
 <!-- ============ 3. SERVICES ============ -->
 <section id="services" style="background:var(--surface-page);scroll-margin-top:80px;">
