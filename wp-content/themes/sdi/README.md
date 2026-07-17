@@ -4,6 +4,11 @@ Thème sur-mesure pour **SDi — Solutions Digitales Intégrées** (sdi-connect.
 agence web & IA à Dijon et Paris. Recréation haute-fidélité de la refonte « Claude
 Design » dans un thème WordPress natif, sans page builder ni dépendance à un plugin.
 
+## Nouveautés v1.0.6
+
+- Page d'accueil : la section « Réalisations » n'affiche plus que **3 projets**
+  (ligne pleine) suivis d'un **bouton CTA centré « Voir toutes nos réalisations »**.
+
 ## Nouveautés v1.0.5
 
 - **Icônes « glass 3D »** (dégradé + reflet + halo, aux couleurs SDi) sur les

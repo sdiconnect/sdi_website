@@ -62,7 +62,7 @@ $rating_count  = sdi_rating_count();
 
 $cities = array( 'Dijon', 'Beaune', 'Chénove', 'Quetigny', 'Talant', 'Dijon Métropole', 'Paris', 'Île-de-France', 'France entière' );
 
-$works = sdi_get_realisations( 4 );
+$works = sdi_get_realisations( 3 );
 
 get_header();
 ?>
@@ -249,14 +249,11 @@ get_header();
 <!-- ============ 7. RÉALISATIONS ============ -->
 <section id="realisations" style="background:var(--surface-page);scroll-margin-top:80px;">
 	<div style="max-width:1240px;margin:0 auto;padding:clamp(50px,6vw,84px) clamp(20px,5vw,32px);">
-		<div class="sdi-reveal" data-reveal style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;">
-			<div style="max-width:640px;">
-				<span class="sdi-eyebrow" style="color:var(--brand-primary);">// Réalisations</span>
-				<h2 class="sdi-h2" style="margin-top:16px;">Des projets concrets, des résultats mesurables.</h2>
-			</div>
-			<a href="<?php echo esc_url( sdi_page_url( 'realisations' ) ); ?>" style="display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:15px;color:var(--brand-primary);white-space:nowrap;">Voir toutes nos réalisations <?php sdi_the_icon( 'arrow-right', 16 ); ?></a>
+		<div class="sdi-reveal" data-reveal style="max-width:640px;">
+			<span class="sdi-eyebrow" style="color:var(--brand-primary);">// Réalisations</span>
+			<h2 class="sdi-h2" style="margin-top:16px;">Des projets concrets, des résultats mesurables.</h2>
 		</div>
-		<div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;">
+		<div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;">
 			<?php $wd = 0; foreach ( $works as $w ) : ?>
 				<a href="<?php echo esc_url( $w['href'] ); ?>" class="sdi-reveal sdi-card" data-reveal data-reveal-delay="<?php echo esc_attr( $wd ); ?>" style="display:block;border-radius:var(--radius-2xl);overflow:hidden;background:var(--surface-card);border:1px solid var(--border-subtle);box-shadow:var(--shadow-md);">
 					<div style="height:172px;background:<?php echo esc_attr( $w['cover'] ); ?>;position:relative;display:flex;align-items:flex-end;padding:18px;">
@@ -273,6 +270,9 @@ get_header();
 					</div>
 				</a>
 			<?php $wd += 60; endforeach; ?>
+		</div>
+		<div class="sdi-reveal" data-reveal style="margin-top:40px;display:flex;justify-content:center;">
+			<a href="<?php echo esc_url( sdi_page_url( 'realisations' ) ); ?>" class="sdi-btn sdi-btn--primary sdi-btn--lg">Voir toutes nos réalisations <?php sdi_the_icon( 'arrow-right', 18 ); ?></a>
 		</div>
 	</div>
 </section>
