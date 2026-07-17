@@ -20,6 +20,7 @@ h1, h2, h3, h4, p { margin: 0; }
 
 .sdi-icon { display: inline-flex; flex-shrink: 0; }
 .sdi-icon svg, svg.sdi-icon { display: block; }
+.sdi-stars { display: inline-flex; gap: 2px; color: var(--amber-500); }
 
 .screen-reader-text {
   position: absolute !important;
@@ -188,10 +189,55 @@ a.sdi-crumb:hover { color: #fff !important; }
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   border-bottom: 1px solid var(--border-subtle);
   font-family: var(--font-sans);
+  overflow: hidden;
+  transition: background .3s var(--ease-signature), box-shadow .3s var(--ease-signature);
 }
-.sdi-header__bar { max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 32px); height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.sdi-header.is-scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* Animated blue/violet halo behind the glass header */
+.sdi-header__halo {
+  position: absolute; inset: -40% -10%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(38% 120% at 18% 40%, rgba(29, 110, 255, 0.28), transparent 70%),
+    radial-gradient(34% 120% at 48% 60%, rgba(124, 58, 237, 0.22), transparent 72%),
+    radial-gradient(32% 120% at 78% 45%, rgba(0, 165, 228, 0.22), transparent 70%);
+  filter: blur(14px);
+  opacity: 0.85;
+  will-change: transform;
+  animation: sdiHeaderHalo 16s ease-in-out infinite alternate;
+}
+@keyframes sdiHeaderHalo {
+  0%   { transform: translate3d(-6%, 0, 0) scale(1); }
+  50%  { transform: translate3d(5%, 1.5%, 0) scale(1.12); }
+  100% { transform: translate3d(11%, -1.5%, 0) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) { .sdi-header__halo { animation: none; } }
+
+.sdi-header__bar {
+  position: relative; z-index: 1;
+  max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 32px);
+  height: 84px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  transition: height .28s var(--ease-signature);
+}
+.sdi-header.is-scrolled .sdi-header__bar { height: 64px; }
 .sdi-header__logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.sdi-header__logo img { height: 52px; width: auto; display: block; }
+.sdi-header__logo img { height: 62px; width: auto; display: block; transition: height .28s var(--ease-signature); }
+.sdi-header.is-scrolled .sdi-header__logo img { height: 44px; }
+
+/* Header contact CTA — filled gradient so it pops on the white bar */
+.sdi-header__cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 44px; padding: 0 18px; border-radius: 12px;
+  font-size: 15px; font-weight: 600; color: #fff; white-space: nowrap;
+  background: var(--gradient-brand-vivid);
+  box-shadow: 0 8px 22px rgba(29, 110, 255, 0.35);
+  transition: transform .2s var(--ease-signature), box-shadow .2s var(--ease-signature), filter .2s var(--ease-signature);
+}
+.sdi-header__cta:hover { color: #fff; transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 12px 28px rgba(29, 110, 255, 0.45); }
+.sdi-header__cta .sdi-icon { color: #fff; }
 .sdi-nav { display: flex; align-items: center; gap: 30px; }
 .sdi-navlink { color: var(--text-body); font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
 .sdi-navlink.is-active { color: var(--brand-primary); font-weight: 600; }

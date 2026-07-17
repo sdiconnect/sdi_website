@@ -712,6 +712,83 @@ function sdi_landing_pages() {
 		'final_cta'  => array( 'heading' => 'Un projet, où que vous soyez en France ?', 'text' => 'Parlons-en en visio : on vous propose une direction claire et un devis sous 24h.' ),
 	);
 
+	/* ==================== PAGE DE VENTE (campagne ads) ==================== */
+
+	$pages['agent-ia-dijon'] = array(
+		'title'      => 'Agent IA pour entreprise à Dijon',
+		'menu_order' => 90,
+		'seo'        => array(
+			'title' => 'Agent IA pour entreprise à Dijon — Démo + devis gratuit | SDi',
+			'desc'  => "Un agent IA qui répond à vos clients et qualifie vos leads 24h/24. Démo personnalisée + devis gratuit pour les entreprises de Dijon et de Côte-d'Or. Réponse sous 24h.",
+			'focus' => 'agent IA Dijon',
+		),
+		'eyebrow'    => "// Agents IA · Dijon & Côte-d'Or",
+		'h1'         => 'Un agent IA qui répond à vos clients et capte vos leads, 24h/24.',
+		'intro'      => "Pour les entreprises de Dijon et de Côte-d'Or : déployez un assistant intelligent qui accueille vos visiteurs, répond à leurs questions et transforme votre site en machine à rendez-vous.",
+		'crumbs'     => array(),
+		'hero_form'  => array(
+			'heading' => 'Recevez votre démo + devis gratuit',
+			'source'  => 'Campagne Agents IA Dijon',
+			'bullets' => array( 'Démo personnalisée sous 24h', 'Sans engagement', 'Une équipe basée à Dijon' ),
+		),
+		'sections'   => array(
+			array(
+				'type'    => 'features',
+				'eyebrow' => '// Le constat',
+				'title'   => "Vos prospects n'attendent plus.",
+				'lead'    => "Aujourd'hui, un client qui n'obtient pas de réponse rapide va voir ailleurs. Et vous ne pouvez pas être disponible 24h/24.",
+				'items'   => array(
+					array( 'icon' => 'calendar', 'title' => 'Des demandes hors horaires', 'desc' => 'Le soir, le week-end, pendant vos rendez-vous : les questions arrivent quand vous n\'êtes pas là.' ),
+					array( 'icon' => 'workflow', 'title' => 'Du temps perdu', 'desc' => 'Vos équipes répondent 20 fois par jour aux mêmes questions au lieu de vendre.' ),
+					array( 'icon' => 'trending-up', 'title' => 'Des concurrents plus réactifs', 'desc' => 'Le premier à répondre décroche le rendez-vous. Souvent, ce n\'est pas vous.' ),
+				),
+			),
+			array(
+				'type'    => 'features',
+				'eyebrow' => '// La solution',
+				'title'   => 'Un agent IA sur-mesure, à votre image.',
+				'lead'    => 'Nous concevons et déployons un assistant connecté à votre activité, qui parle le langage de votre entreprise.',
+				'bg'      => 'white',
+				'items'   => array(
+					array( 'icon' => 'headphones', 'title' => 'Répond en continu', 'desc' => 'Il accueille et renseigne vos visiteurs jour et nuit, dans votre ton.', 'points' => array( 'Réponses instantanées', 'Disponible 24h/24, 7j/7', 'Sur votre site, en français' ) ),
+					array( 'icon' => 'target', 'title' => 'Qualifie vos leads', 'desc' => 'Il pose les bonnes questions et vous transmet des contacts prêts à échanger.', 'points' => array( 'Collecte des coordonnées', 'Qualifie le besoin', 'Prend rendez-vous' ) ),
+					array( 'icon' => 'sparkles', 'title' => 'Formé sur votre métier', 'desc' => 'Nous l\'entraînons sur vos services, vos tarifs et vos règles.', 'points' => array( 'Éduqué avec vos contenus', 'Garde-fous & relais humain', 'Amélioré en continu' ) ),
+				),
+			),
+			array(
+				'type'    => 'steps',
+				'eyebrow' => '// Comment ça se passe',
+				'title'   => 'Votre agent en ligne en quelques jours.',
+				'items'   => array(
+					array( 'title' => 'Audit gratuit', 'desc' => 'On échange sur votre activité et vos besoins, à Dijon ou en visio.' ),
+					array( 'title' => 'Conception', 'desc' => 'On rédige la personnalité et les réponses de votre agent.' ),
+					array( 'title' => 'Connexion', 'desc' => 'On le branche sur votre site et vos outils.' ),
+					array( 'title' => 'Mise en ligne', 'desc' => 'On déploie, on mesure et on optimise avec vous.' ),
+				),
+			),
+			array( 'type' => 'reviews', 'eyebrow' => '// Ils nous font confiance', 'title' => 'Des clients locaux, des résultats concrets.' ),
+			array(
+				'type'  => 'faq',
+				'title' => 'Vos questions avant de vous lancer',
+				'items' => array(
+					array( 'q' => 'Combien coûte un agent IA ?', 'a' => 'Cela dépend du périmètre et des connexions souhaitées. Après un échange rapide, nous vous remettons un devis clair et sans engagement. La plupart des projets sont accessibles aux TPE et PME.' ),
+					array( 'q' => 'Est-ce compliqué à mettre en place ?', 'a' => 'Non, c\'est nous qui gérons tout : conception, entraînement, intégration. De votre côté, il suffit de nous transmettre vos informations métier.' ),
+					array( 'q' => 'L\'agent peut-il se tromper devant mes clients ?', 'a' => 'Nous l\'encadrons avec des garde-fous et un relais humain quand une demande sort de son périmètre. Vous gardez la maîtrise de ce qu\'il peut dire.' ),
+					array( 'q' => 'Êtes-vous vraiment basés à Dijon ?', 'a' => 'Oui, notre ancrage est à Dijon (siège à Paris). Nous intervenons dans toute la Côte-d\'Or, en présentiel comme à distance.' ),
+				),
+			),
+			array(
+				'type'    => 'leadform',
+				'eyebrow' => '// Offre de lancement',
+				'title'   => 'Recevez une démo + un devis, gratuitement.',
+				'lead'    => "Dites-nous en deux mots votre activité : on vous montre concrètement ce qu'un agent IA peut faire pour vous, sans engagement.",
+				'heading' => 'Ma démo gratuite',
+				'source'  => 'Campagne Agents IA Dijon',
+				'bullets' => array( 'Réponse sous 24h', 'Démo adaptée à votre métier', 'Aucun engagement' ),
+			),
+		),
+	);
+
 	return $pages;
 }
 

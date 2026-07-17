@@ -41,8 +41,8 @@ function sdi_company() {
 		'street'    => '60 rue François 1er',
 		'postal'    => '75008',
 		'city'      => 'Paris',
-		'rating'    => '4.9',
-		'reviews'   => '109',
+		'rating'    => function_exists( 'sdi_rating_value' ) ? str_replace( ',', '.', sdi_rating_value() ) : '4.9',
+		'reviews'   => function_exists( 'sdi_rating_count' ) ? (string) sdi_rating_count() : '109',
 		'founded'   => '2017',
 	);
 }

@@ -48,6 +48,7 @@ function sdi_handle_contact() {
 	$email   = isset( $_POST['sdi_email'] ) ? sanitize_email( wp_unslash( $_POST['sdi_email'] ) ) : '';
 	$phone   = isset( $_POST['sdi_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['sdi_phone'] ) ) : '';
 	$message = isset( $_POST['sdi_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['sdi_message'] ) ) : '';
+	$source  = isset( $_POST['sdi_source'] ) ? sanitize_text_field( wp_unslash( $_POST['sdi_source'] ) ) : '';
 
 	if ( '' === $name || ! is_email( $email ) || '' === $message ) {
 		$back = add_query_arg( 'contact', 'error', $referer );
@@ -57,11 +58,15 @@ function sdi_handle_contact() {
 
 	$to      = sdi_contact_recipient();
 	$subject = sprintf( '[SDi] Nouvelle demande de %s', $name );
+	if ( $source ) {
+		$subject .= ' — ' . $source;
+	}
 	$body    = "Nouvelle demande via le site sdi-connect.com\n\n"
 		. "Nom & entreprise : {$name}\n"
 		. "Email : {$email}\n"
-		. "Téléphone : {$phone}\n\n"
-		. "Besoin :\n{$message}\n";
+		. "Téléphone : {$phone}\n"
+		. ( $source ? "Source : {$source}\n" : '' )
+		. "\nBesoin :\n{$message}\n";
 
 	$headers = array(
 		'Content-Type: text/plain; charset=UTF-8',
@@ -99,7 +104,7 @@ function sdi_contact_error() {
  *
  * @param string $heading Card heading text.
  */
-function sdi_contact_form( $heading = 'Nous contacter' ) {
+function sdi_contact_form( $heading = 'Nous contacter', $source = '' ) {
 	if ( sdi_contact_sent() ) {
 		?>
 		<div style="text-align:center;padding:44px 12px;">
@@ -117,6 +122,7 @@ function sdi_contact_form( $heading = 'Nous contacter' ) {
 	<?php endif; ?>
 	<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" style="margin-top:20px;display:flex;flex-direction:column;gap:16px;">
 		<input type="hidden" name="action" value="sdi_contact">
+		<?php if ( $source ) : ?><input type="hidden" name="sdi_source" value="<?php echo esc_attr( $source ); ?>"><?php endif; ?>
 		<?php wp_nonce_field( 'sdi_contact', 'sdi_contact_nonce' ); ?>
 		<div style="position:absolute;left:-9999px;" aria-hidden="true"><label>Ne pas remplir<input type="text" name="sdi_website_hp" tabindex="-1" autocomplete="off"></label></div>
 		<?php

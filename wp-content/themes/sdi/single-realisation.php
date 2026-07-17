@@ -106,7 +106,7 @@ while ( have_posts() ) :
 					</div>
 					<?php if ( $r['quote'] ) : ?>
 						<div class="sdi-reveal" data-reveal style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-2xl);box-shadow:var(--shadow-md);padding:clamp(24px,3vw,36px);">
-							<div style="display:flex;gap:3px;color:var(--amber-500);"><?php for ( $i = 0; $i < 5; $i++ ) { sdi_the_icon( 'star', 18 ); } ?></div>
+							<?php echo sdi_stars( 5, 18 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 							<p style="margin-top:16px;font-family:var(--font-display);font-weight:500;font-size:clamp(18px,2vw,23px);line-height:1.45;color:var(--text-strong);letter-spacing:-0.01em;">«&nbsp;<?php echo esc_html( $r['quote'] ); ?>&nbsp;»</p>
 							<?php if ( $r['quote_author'] ) : ?>
 								<div style="margin-top:20px;display:flex;align-items:center;gap:12px;"><div style="width:44px;height:44px;border-radius:50%;background:var(--gradient-brand);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;"><?php echo esc_html( mb_substr( $r['client'] ? $r['client'] : $r['quote_author'], 0, 1 ) ); ?></div><div><div style="font-weight:600;color:var(--text-strong);font-size:15px;"><?php echo esc_html( $r['quote_author'] ); ?></div><div style="font-size:13px;color:var(--text-muted);"><?php echo esc_html( $r['quote_role'] ); ?></div></div></div>

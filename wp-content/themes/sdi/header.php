@@ -23,7 +23,8 @@ $sdi_logo   = SDI_URI . '/assets/img/sdi-logo-color.png';
 <a class="screen-reader-text" href="#sdi-content">Aller au contenu</a>
 
 <div class="sdi-root">
-	<header class="sdi-header">
+	<header class="sdi-header" data-sdi-header>
+		<div class="sdi-header__halo" aria-hidden="true"></div>
 		<div class="sdi-header__bar">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="sdi-header__logo" aria-label="SDi — Accueil">
 				<img src="<?php echo esc_url( $sdi_logo ); ?>" alt="SDi — Agence web &amp; IA à Dijon et Paris">
@@ -40,7 +41,7 @@ $sdi_logo   = SDI_URI . '/assets/img/sdi-logo-color.png';
 
 			<div class="sdi-header__right">
 				<a href="tel:+33980806296" class="sdi-header__phone"><?php sdi_the_icon( 'phone', 16 ); ?>09&nbsp;80&nbsp;80&nbsp;62&nbsp;96</a>
-				<a href="<?php echo esc_url( sdi_page_url( 'contact' ) ); ?>" class="sdi-btn sdi-btn--secondary sdi-btn--md">Nous contacter</a>
+				<a href="<?php echo esc_url( sdi_page_url( 'contact' ) ); ?>" class="sdi-header__cta"><?php sdi_the_icon( 'mail', 16 ); ?>Nous contacter</a>
 				<button type="button" class="sdi-burger" data-sdi-burger aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="sdi-mobile-menu"><?php sdi_the_icon( 'menu', 22 ); ?></button>
 			</div>
 		</div>

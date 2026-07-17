@@ -68,7 +68,7 @@ $sdi_footer_cols = array(
 				<?php endforeach; ?>
 			</div>
 			<div class="sdi-footer__legal">
-				<p>© <?php echo esc_html( gmdate( 'Y' ) ); ?> Solutions Digitales Intégrées (SAS) · Siège : 60 rue François 1er, 75008 Paris · RCS Dijon 827 966 946</p>
+				<p>© <?php echo esc_html( gmdate( 'Y' ) ); ?> Solutions Digitales Intégrées (SAS) · Siège : 60 rue François 1er, 75008 Paris · RCS Paris 827 966 946</p>
 				<div class="sdi-footer__legal-links">
 					<?php
 					$sdi_legal = array(
@@ -92,10 +92,14 @@ $sdi_footer_cols = array(
 		<a class="sdi-mobilebar__contact" href="<?php echo esc_url( sdi_page_url( 'contact' ) ); ?>">Nous contacter</a>
 	</div>
 
-	<?php if ( is_front_page() ) : ?>
-		<?php get_template_part( 'template-parts/chatbot' ); ?>
-	<?php endif; ?>
-
+	<?php
+	/*
+	 * The live AI chat widget is provided by the companion plugin « SDi Agent IA »
+	 * (site-wide). The former theme demo chatbot has been removed to avoid a
+	 * duplicate widget. The homepage "Tester l'assistant" button still works: the
+	 * plugin binds to any [data-sdi-bot-open] trigger.
+	 */
+	?>
 </div><!-- .sdi-root -->
 
 <?php wp_footer(); ?>

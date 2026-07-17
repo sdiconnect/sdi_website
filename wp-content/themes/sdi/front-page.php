@@ -58,21 +58,19 @@ $counters = array(
 	array( 'to' => '100', 'dec' => '0', 'prefix' => '+', 'suffix' => '', 'display' => '+100', 'color' => 'var(--blue-400)', 'label' => 'Projets livrés', 'delay' => 0 ),
 	array( 'to' => '9', 'dec' => '0', 'prefix' => '', 'suffix' => ' ans', 'display' => '9 ans', 'color' => 'var(--cyan-400)', 'label' => "D'expérience, depuis 2017", 'delay' => 80 ),
 	array( 'to' => '100', 'dec' => '0', 'prefix' => '+', 'suffix' => '', 'display' => '+100', 'color' => 'var(--blue-400)', 'label' => 'Clients accompagnés', 'delay' => 160 ),
-	array( 'to' => '4.9', 'dec' => '1', 'prefix' => '', 'suffix' => '', 'display' => '4,9', 'color' => 'var(--magenta-400)', 'label' => 'Note Google · 109 avis', 'delay' => 240 ),
+	array( 'to' => str_replace( ',', '.', sdi_rating_value() ), 'dec' => '1', 'prefix' => '', 'suffix' => '', 'display' => sdi_rating_value(), 'color' => 'var(--magenta-400)', 'label' => 'Note Google · ' . sdi_rating_count() . ' avis', 'delay' => 240 ),
 );
 
 $steps = array(
 	array( '01', 'search-check', 'Écoute & audit', 'On analyse votre situation, vos objectifs et vos concurrents.', 0 ),
 	array( '02', 'route', 'Stratégie', 'On définit ensemble un plan clair, priorisé et chiffré.', 60 ),
-	array( '03', 'layers', 'Production', 'Design, développement et intégration par nos équipes internes.', 120 ),
+	array( '03', 'layers', 'Production', 'Design, développement et intégration par une équipe dédiée.', 120 ),
 	array( '04', 'chart-line', 'Suivi & optimisation', 'On mesure, on ajuste et on fait grandir vos résultats dans la durée.', 180 ),
 );
 
-$reviews = array(
-	array( 'Une équipe technique qui comprend vraiment les enjeux métier. Notre nouvel outil interne nous fait gagner un temps considérable.', 'Julien M.', 'Directeur, PME industrielle · Dijon', 'JM', 0 ),
-	array( 'Réactifs, pédagogues et de très bon conseil sur le SEO local. On est enfin visibles sur Google dans notre secteur.', 'Sophie R.', 'Gérante, commerce · Beaune', 'SR', 80 ),
-	array( "Ils nous ont accompagnés de A à Z, du branding au site. Le chatbot IA qu'ils ont intégré capte des demandes toute la journée.", 'Thomas L.', 'Fondateur, domaine viticole · Côte-d\'Or', 'TL', 160 ),
-);
+$reviews       = sdi_get_reviews();
+$rating_value  = sdi_rating_value();
+$rating_count  = sdi_rating_count();
 
 $cities = array( 'Dijon', 'Beaune', 'Chénove', 'Quetigny', 'Talant', 'Dijon Métropole', 'Paris', 'Île-de-France', 'France entière' );
 
@@ -99,13 +97,13 @@ get_header();
 				<div class="sdi-reveal" data-reveal data-reveal-delay="320" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;">
 					<?php
 					$hero_chips = array(
-						array( 'map-pin', 'Dijon' ),
-						array( 'calendar', 'Depuis 2017' ),
-						array( 'check-circle-2', '+100 projets livrés' ),
-						array( 'star', '4,9/5 · 109 avis Google' ),
+						array( 'map-pin', 'Dijon', 'var(--cyan-400)' ),
+						array( 'calendar', 'Depuis 2017', 'var(--cyan-400)' ),
+						array( 'check-circle-2', '+100 projets livrés', 'var(--cyan-400)' ),
+						array( 'star-solid', sdi_rating_value() . '/5 · ' . sdi_rating_count() . ' avis Google', 'var(--amber-500)' ),
 					);
 					foreach ( $hero_chips as $chip ) : ?>
-						<span style="display:inline-flex;align-items:center;gap:8px;color:var(--navy-300);font-size:14px;font-weight:500;"><span style="color:var(--cyan-400);display:inline-flex;"><?php sdi_the_icon( $chip[0], 15 ); ?></span><?php echo esc_html( $chip[1] ); ?></span>
+						<span style="display:inline-flex;align-items:center;gap:8px;color:var(--navy-300);font-size:14px;font-weight:500;"><span style="color:<?php echo esc_attr( $chip[2] ); ?>;display:inline-flex;"><?php sdi_the_icon( $chip[0], 15 ); ?></span><?php echo esc_html( $chip[1] ); ?></span>
 					<?php endforeach; ?>
 				</div>
 			</div>
@@ -142,8 +140,8 @@ get_header();
 					</div>
 				</div>
 				<div style="position:absolute;bottom:-18px;left:-18px;background:var(--white);border-radius:14px;box-shadow:var(--shadow-lg);padding:12px 16px;display:flex;align-items:center;gap:10px;animation:sdiFloat 5s ease-in-out infinite;">
-					<span style="color:var(--amber-500);display:inline-flex;"><?php sdi_the_icon( 'star', 18 ); ?></span>
-					<div><div style="font-weight:700;color:var(--text-strong);font-size:15px;line-height:1;">4,9/5</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">109 avis Google</div></div>
+					<span style="color:var(--amber-500);display:inline-flex;"><?php sdi_the_icon( 'star-solid', 18 ); ?></span>
+					<div><div style="font-weight:700;color:var(--text-strong);font-size:15px;line-height:1;"><?php echo esc_html( sdi_rating_value() ); ?>/5</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><?php echo esc_html( sdi_rating_count() ); ?> avis Google</div></div>
 				</div>
 			</div>
 		</div>
@@ -320,18 +318,18 @@ get_header();
 				<h2 class="sdi-h2" style="margin-top:16px;">Ce que disent nos clients.</h2>
 			</div>
 			<div style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:var(--radius-xl);background:var(--white);border:1px solid var(--border-subtle);box-shadow:var(--shadow-sm);">
-				<div style="font-family:var(--font-display);font-weight:700;font-size:34px;color:var(--text-strong);line-height:1;">4,9</div>
-				<div><div style="display:flex;gap:2px;color:var(--amber-500);"><?php for ( $i = 0; $i < 5; $i++ ) { sdi_the_icon( 'star', 15 ); } ?></div><div style="font-size:12px;color:var(--text-muted);margin-top:3px;">109 avis Google</div></div>
+				<div style="font-family:var(--font-display);font-weight:700;font-size:34px;color:var(--text-strong);line-height:1;"><?php echo esc_html( $rating_value ); ?></div>
+				<div><?php echo sdi_stars( 5, 15 ); // phpcs:ignore WordPress.Security.EscapeOutput ?><div style="font-size:12px;color:var(--text-muted);margin-top:3px;"><?php echo esc_html( $rating_count ); ?> avis Google</div></div>
 			</div>
 		</div>
 		<div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px;">
 			<?php foreach ( $reviews as $r ) : ?>
-				<div class="sdi-reveal" data-reveal data-reveal-delay="<?php echo esc_attr( $r[4] ); ?>" style="padding:30px 28px;border-radius:var(--radius-2xl);background:var(--white);border:1px solid var(--border-subtle);box-shadow:var(--shadow-md);display:flex;flex-direction:column;">
-					<div style="display:flex;gap:3px;color:var(--amber-500);"><?php for ( $i = 0; $i < 5; $i++ ) { sdi_the_icon( 'star', 17 ); } ?></div>
-					<p style="margin-top:18px;font-size:16px;line-height:1.6;color:var(--text-body);flex:1;"><?php echo esc_html( $r[0] ); ?></p>
+				<div class="sdi-reveal" data-reveal data-reveal-delay="<?php echo esc_attr( $r['delay'] ); ?>" style="padding:30px 28px;border-radius:var(--radius-2xl);background:var(--white);border:1px solid var(--border-subtle);box-shadow:var(--shadow-md);display:flex;flex-direction:column;">
+					<?php echo sdi_stars( $r['rating'], 17 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<p style="margin-top:18px;font-size:16px;line-height:1.6;color:var(--text-body);flex:1;"><?php echo esc_html( $r['quote'] ); ?></p>
 					<div style="margin-top:22px;display:flex;align-items:center;gap:12px;">
-						<div style="width:44px;height:44px;border-radius:50%;background:var(--gradient-brand);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;"><?php echo esc_html( $r[3] ); ?></div>
-						<div><div style="font-weight:600;color:var(--text-strong);font-size:15px;"><?php echo esc_html( $r[1] ); ?></div><div style="font-size:13px;color:var(--text-muted);"><?php echo esc_html( $r[2] ); ?></div></div>
+						<div style="width:44px;height:44px;border-radius:50%;background:var(--gradient-brand);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;"><?php echo esc_html( $r['initials'] ); ?></div>
+						<div><div style="font-weight:600;color:var(--text-strong);font-size:15px;"><?php echo esc_html( $r['name'] ); ?></div><div style="font-size:13px;color:var(--text-muted);"><?php echo esc_html( $r['meta'] ); ?></div></div>
 					</div>
 				</div>
 			<?php endforeach; ?>

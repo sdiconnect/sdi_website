@@ -13,6 +13,17 @@
   }
 
   ready(function () {
+    /* ---- Sticky header shrink on scroll ---- */
+    var header = document.querySelector('[data-sdi-header]');
+    if (header) {
+      var onScroll = function () {
+        if (window.scrollY > 8) { header.classList.add('is-scrolled'); }
+        else { header.classList.remove('is-scrolled'); }
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+
     /* ---- Mobile menu ---- */
     var burger = document.querySelector('[data-sdi-burger]');
     var menu = document.querySelector('[data-sdi-mobile-menu]');

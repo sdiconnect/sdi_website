@@ -55,34 +55,50 @@ function sdi_landing( $c ) {
  * @param array $c Config.
  */
 function sdi_landing_hero( $c ) {
+	$has_form = ! empty( $c['hero_form'] );
 	?>
 	<section style="position:relative;background:var(--gradient-navy);color:var(--white);overflow:hidden;">
 		<div style="position:absolute;inset:0;background:var(--gradient-halo);pointer-events:none;"></div>
 		<div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 70% at 50% 15%,#000 0%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 15%,#000 0%,transparent 75%);pointer-events:none;"></div>
 		<div style="position:relative;max-width:1240px;margin:0 auto;padding:clamp(44px,6vw,80px) clamp(20px,5vw,32px) clamp(52px,6vw,88px);">
-			<?php
-			if ( ! empty( $c['crumbs'] ) ) {
-				echo sdi_breadcrumb( $c['crumbs'] ); // phpcs:ignore WordPress.Security.EscapeOutput
-			}
-			?>
-			<?php if ( $c['eyebrow'] ) : ?>
-				<div class="sdi-reveal sdi-eyebrow sdi-eyebrow--pill" data-reveal style="margin-top:22px;color:var(--cyan-400);font-weight:500;"><?php echo esc_html( $c['eyebrow'] ); ?></div>
-			<?php endif; ?>
-			<h1 class="sdi-reveal" data-reveal data-reveal-delay="80" style="margin-top:22px;max-width:920px;font-family:var(--font-display);font-weight:700;font-size:clamp(34px,5vw,60px);line-height:1.05;letter-spacing:-0.03em;color:#fff;text-wrap:balance;"><?php echo esc_html( $c['h1'] ); ?></h1>
-			<?php if ( $c['intro'] ) : ?>
-				<p class="sdi-reveal" data-reveal data-reveal-delay="160" style="margin-top:22px;max-width:660px;font-size:clamp(17px,1.4vw,20px);line-height:1.6;color:var(--navy-300);"><?php echo esc_html( $c['intro'] ); ?></p>
-			<?php endif; ?>
-			<?php if ( ! empty( $c['cta'] ) ) : ?>
-				<div class="sdi-reveal" data-reveal data-reveal-delay="240" style="margin-top:32px;display:flex;flex-wrap:wrap;gap:14px;">
-					<?php foreach ( $c['cta'] as $btn ) : ?>
-						<?php if ( 'ghost' === ( $btn['style'] ?? 'primary' ) ) : ?>
-							<a href="<?php echo esc_url( $btn['href'] ); ?>" class="sdi-ghost-dark"><?php echo esc_html( $btn['label'] ); ?></a>
-						<?php else : ?>
-							<a href="<?php echo esc_url( $btn['href'] ); ?>" class="sdi-btn sdi-btn--primary sdi-btn--lg"><?php echo esc_html( $btn['label'] ); ?></a>
-						<?php endif; ?>
-					<?php endforeach; ?>
+			<?php if ( ! empty( $c['crumbs'] ) ) { echo sdi_breadcrumb( $c['crumbs'] ); // phpcs:ignore WordPress.Security.EscapeOutput
+			} ?>
+			<div<?php echo $has_form ? ' data-split style="margin-top:22px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(36px,5vw,64px);align-items:center;"' : ''; ?>>
+				<div>
+					<?php if ( $c['eyebrow'] ) : ?>
+						<div class="sdi-reveal sdi-eyebrow sdi-eyebrow--pill" data-reveal style="<?php echo $has_form ? '' : 'margin-top:22px;'; ?>color:var(--cyan-400);font-weight:500;"><?php echo esc_html( $c['eyebrow'] ); ?></div>
+					<?php endif; ?>
+					<h1 class="sdi-reveal" data-reveal data-reveal-delay="80" style="margin-top:22px;max-width:920px;font-family:var(--font-display);font-weight:700;font-size:clamp(34px,5vw,60px);line-height:1.05;letter-spacing:-0.03em;color:#fff;text-wrap:balance;"><?php echo esc_html( $c['h1'] ); ?></h1>
+					<?php if ( $c['intro'] ) : ?>
+						<p class="sdi-reveal" data-reveal data-reveal-delay="160" style="margin-top:22px;max-width:660px;font-size:clamp(17px,1.4vw,20px);line-height:1.6;color:var(--navy-300);"><?php echo esc_html( $c['intro'] ); ?></p>
+					<?php endif; ?>
+					<?php if ( $has_form && ! empty( $c['hero_form']['bullets'] ) ) : ?>
+						<div class="sdi-reveal" data-reveal data-reveal-delay="220" style="margin-top:26px;display:flex;flex-direction:column;gap:12px;">
+							<?php foreach ( $c['hero_form']['bullets'] as $b ) : ?>
+								<span style="display:inline-flex;align-items:center;gap:10px;font-size:15px;color:var(--navy-200);"><span style="color:var(--green-400);display:inline-flex;"><?php sdi_the_icon( 'check-circle-2', 18 ); ?></span><?php echo esc_html( $b ); ?></span>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
+					<?php if ( ! $has_form && ! empty( $c['cta'] ) ) : ?>
+						<div class="sdi-reveal" data-reveal data-reveal-delay="240" style="margin-top:32px;display:flex;flex-wrap:wrap;gap:14px;">
+							<?php foreach ( $c['cta'] as $btn ) : ?>
+								<?php if ( 'ghost' === ( $btn['style'] ?? 'primary' ) ) : ?>
+									<a href="<?php echo esc_url( $btn['href'] ); ?>" class="sdi-ghost-dark"><?php echo esc_html( $btn['label'] ); ?></a>
+								<?php else : ?>
+									<a href="<?php echo esc_url( $btn['href'] ); ?>" class="sdi-btn sdi-btn--primary sdi-btn--lg"><?php echo esc_html( $btn['label'] ); ?></a>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
 				</div>
-			<?php endif; ?>
+				<?php if ( $has_form ) : ?>
+					<div class="sdi-reveal" data-reveal data-reveal-delay="120">
+						<div style="background:var(--white);border-radius:var(--radius-3xl);padding:clamp(24px,3vw,34px);box-shadow:0 40px 90px rgba(7,11,22,0.5);">
+							<?php sdi_contact_form( $c['hero_form']['heading'] ?? 'Recevez votre devis gratuit', $c['hero_form']['source'] ?? '' ); ?>
+						</div>
+					</div>
+				<?php endif; ?>
+			</div>
 		</div>
 	</section>
 	<?php
@@ -305,6 +321,82 @@ function sdi_landing_section_faq( $s ) {
 						<div class="sdi-faq__a"><?php echo wp_kses_post( wpautop( $qa['a'] ) ); ?></div>
 					</details>
 				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+	<?php
+}
+
+/**
+ * Social-proof section: rating summary + review cards (from the Customizer).
+ *
+ * @param array $s Section.
+ */
+function sdi_landing_section_reviews( $s ) {
+	$reviews = function_exists( 'sdi_get_reviews' ) ? sdi_get_reviews() : array();
+	if ( empty( $reviews ) ) {
+		return;
+	}
+	$rating = function_exists( 'sdi_rating_value' ) ? sdi_rating_value() : '4,9';
+	$count  = function_exists( 'sdi_rating_count' ) ? sdi_rating_count() : 109;
+	?>
+	<section style="background:var(--surface-page);">
+		<div style="max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,84px) clamp(20px,5vw,32px);">
+			<div class="sdi-reveal" data-reveal style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;">
+				<div>
+					<span class="sdi-eyebrow" style="color:var(--brand-primary);"><?php echo esc_html( $s['eyebrow'] ?? '// Avis clients' ); ?></span>
+					<h2 class="sdi-h2" style="margin-top:16px;font-size:clamp(28px,3.8vw,46px);"><?php echo esc_html( $s['title'] ?? 'Ce que disent nos clients.' ); ?></h2>
+				</div>
+				<div style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:var(--radius-xl);background:var(--white);border:1px solid var(--border-subtle);box-shadow:var(--shadow-sm);">
+					<div style="font-family:var(--font-display);font-weight:700;font-size:34px;color:var(--text-strong);line-height:1;"><?php echo esc_html( $rating ); ?></div>
+					<div><?php echo sdi_stars( 5, 15 ); // phpcs:ignore WordPress.Security.EscapeOutput ?><div style="font-size:12px;color:var(--text-muted);margin-top:3px;"><?php echo esc_html( $count ); ?> avis Google</div></div>
+				</div>
+			</div>
+			<div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px;">
+				<?php foreach ( $reviews as $r ) : ?>
+					<div class="sdi-reveal" data-reveal data-reveal-delay="<?php echo esc_attr( $r['delay'] ); ?>" style="padding:30px 28px;border-radius:var(--radius-2xl);background:var(--white);border:1px solid var(--border-subtle);box-shadow:var(--shadow-md);display:flex;flex-direction:column;">
+						<?php echo sdi_stars( $r['rating'], 17 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+						<p style="margin-top:18px;font-size:16px;line-height:1.6;color:var(--text-body);flex:1;"><?php echo esc_html( $r['quote'] ); ?></p>
+						<div style="margin-top:22px;display:flex;align-items:center;gap:12px;">
+							<div style="width:44px;height:44px;border-radius:50%;background:var(--gradient-brand);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;"><?php echo esc_html( $r['initials'] ); ?></div>
+							<div><div style="font-weight:600;color:var(--text-strong);font-size:15px;"><?php echo esc_html( $r['name'] ); ?></div><div style="font-size:13px;color:var(--text-muted);"><?php echo esc_html( $r['meta'] ); ?></div></div>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+	<?php
+}
+
+/**
+ * Centered lead-capture form section. s: eyebrow, title, lead, heading, source.
+ *
+ * @param array $s Section.
+ */
+function sdi_landing_section_leadform( $s ) {
+	?>
+	<section id="devis" style="position:relative;background:var(--navy-950);color:var(--white);overflow:hidden;">
+		<div style="position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:1000px;height:640px;background:radial-gradient(ellipse at center,rgba(29,110,255,0.2) 0%,rgba(29,110,255,0) 62%);pointer-events:none;"></div>
+		<div style="position:relative;max-width:1240px;margin:0 auto;padding:clamp(52px,6vw,84px) clamp(20px,5vw,32px);">
+			<div data-split style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,72px);align-items:center;">
+				<div class="sdi-reveal" data-reveal>
+					<?php if ( ! empty( $s['eyebrow'] ) ) : ?><span class="sdi-eyebrow" style="color:var(--cyan-400);"><?php echo esc_html( $s['eyebrow'] ); ?></span><?php endif; ?>
+					<h2 class="sdi-h2 sdi-h2--dark" style="margin-top:16px;"><?php echo esc_html( $s['title'] ?? 'Parlons de votre projet.' ); ?></h2>
+					<?php if ( ! empty( $s['lead'] ) ) : ?><p style="margin-top:18px;font-size:18px;line-height:1.6;color:var(--navy-300);max-width:460px;"><?php echo esc_html( $s['lead'] ); ?></p><?php endif; ?>
+					<?php if ( ! empty( $s['bullets'] ) ) : ?>
+						<div style="margin-top:26px;display:flex;flex-direction:column;gap:12px;">
+							<?php foreach ( $s['bullets'] as $b ) : ?>
+								<span style="display:inline-flex;align-items:center;gap:10px;font-size:15px;color:var(--navy-200);"><span style="color:var(--green-400);display:inline-flex;"><?php sdi_the_icon( 'check-circle-2', 18 ); ?></span><?php echo esc_html( $b ); ?></span>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
+				</div>
+				<div class="sdi-reveal" data-reveal data-reveal-delay="120">
+					<div style="background:var(--white);border-radius:var(--radius-3xl);padding:clamp(24px,3vw,36px);box-shadow:0 40px 90px rgba(7,11,22,0.5);">
+						<?php sdi_contact_form( $s['heading'] ?? 'Recevez votre devis gratuit', $s['source'] ?? '' ); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>

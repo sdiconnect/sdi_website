@@ -17,9 +17,10 @@ wp-content/*.sqlite
 wp-content/db.php
 wp-content/debug.log
 
-# Other themes & plugins (not part of this repo)
+# Other themes & plugins (not part of this repo), but keep our own plugin
 wp-content/themes/twenty*/
-wp-content/plugins/
+wp-content/plugins/*
+!wp-content/plugins/sdi-agent-ia/
 
 # OS / editor
 .DS_Store

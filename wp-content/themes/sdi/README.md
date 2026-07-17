@@ -4,6 +4,23 @@ Thème sur-mesure pour **SDi — Solutions Digitales Intégrées** (sdi-connect.
 agence web & IA à Dijon et Paris. Recréation haute-fidélité de la refonte « Claude
 Design » dans un thème WordPress natif, sans page builder ni dépendance à un plugin.
 
+## Nouveautés v1.0.2
+
+- **Avis gérables depuis Personnaliser** (Apparence → Personnaliser → « SDi — Avis
+  clients ») : 3 avis (nom, fonction, texte, étoiles) + note moyenne + nombre d'avis.
+- **Étoiles pleines dorées** partout (au lieu du contour), pour ne pas laisser
+  croire à un mauvais avis.
+- **Header retravaillé** : bouton « Nous contacter » en dégradé (bien visible),
+  logo plus grand qui se réduit au défilement (sticky shrink), et **halo animé
+  bleu/violet** en fond de bannière.
+- **Pages Confidentialité + Mentions légales** créées automatiquement.
+- **Page de vente campagne** « Agent IA pour entreprise à Dijon » (`/agent-ia-dijon/`)
+  avec formulaire de capture, pensée pour vos campagnes webmarketing (source de lead
+  tracée dans l'e-mail reçu).
+- **RCS Paris** (au lieu de RCS Dijon) dans le pied de page.
+- Le chatbot de démo du thème est retiré : il est remplacé par l'extension
+  **SDi Agent IA** (chatbot réel, voir le dossier `wp-content/plugins/sdi-agent-ia`).
+
 ## Nouveautés v1.0.1
 
 - **12 nouvelles pages SEO** créées automatiquement à la mise à jour du thème
