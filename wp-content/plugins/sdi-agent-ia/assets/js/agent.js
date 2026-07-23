@@ -92,6 +92,29 @@
       .then(function (r) { return r.json(); });
   }
 
+  // Fetch a fresh nonce from the (uncached) AJAX endpoint. Page caches serve HTML
+  // whose embedded nonce expires after ~24h; refreshing at runtime keeps the chat
+  // working even on a long-cached page.
+  var nonceReady = null;
+  function refreshNonce() {
+    nonceReady = fetch(cfg.ajaxUrl + '?action=sdi_ai_nonce', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (res) { if (res && res.success && res.data && res.data.nonce) { cfg.nonce = res.data.nonce; } })
+      .catch(function () {});
+    return nonceReady;
+  }
+
+  // POST that transparently retries once with a fresh nonce if the server rejects
+  // it as stale (bad_nonce) or the response isn't valid JSON.
+  function postWithRetry(action, extra) {
+    return post(action, extra).then(function (res) {
+      if (res && res.success === false && res.data && res.data.code === 'bad_nonce') {
+        return refreshNonce().then(function () { return post(action, extra); });
+      }
+      return res;
+    });
+  }
+
   function send() {
     var text = (input.value || '').trim();
     if (!text || busy) { return; }
@@ -107,7 +130,7 @@
     busy = true; sendBtn.disabled = true;
     var typing = showTyping();
 
-    post('sdi_ai_chat', { message: text }).then(function (res) {
+    postWithRetry('sdi_ai_chat', { message: text }).then(function (res) {
       typing.remove();
       var reply = (res && res.success && res.data && res.data.reply) ? res.data.reply
         : "Désolé, une erreur est survenue. Réessayez ou appelez-nous au 09 80 80 62 96.";
@@ -126,7 +149,7 @@
     // Send the conversation to SDi (deduplicated).
     if (transcriptSent || userMsgCount === 0) { return Promise.resolve(); }
     transcriptSent = true;
-    return post('sdi_ai_transcript', Object.assign({ page: window.location.href }, lastLead, extra || {}));
+    return postWithRetry('sdi_ai_transcript', Object.assign({ page: window.location.href }, lastLead, extra || {}));
   }
 
   function showLeadForm() {
@@ -213,6 +236,9 @@
   function ready(fn) { if (document.readyState !== 'loading') { fn(); } else { document.addEventListener('DOMContentLoaded', fn); } }
   ready(function () {
     document.body.appendChild(root);
+    // Grab a fresh nonce right away so the very first message works even when the
+    // page HTML was served from a long-lived cache.
+    refreshNonce();
     // Theme integration: any [data-sdi-bot-open] trigger opens the chat.
     document.querySelectorAll('[data-sdi-bot-open]').forEach(function (t) {
       t.addEventListener('click', function (e) { e.preventDefault(); open(); });

@@ -53,7 +53,24 @@
   border-radius: 24px;
 }
 @media (max-width: 1024px) { .sdi-ai.is-open .sdi-ai__panel { width: min(88vw, 760px); height: 80vh; } }
-@media (max-width: 720px) { .sdi-ai.is-open .sdi-ai__panel { width: calc(100vw - 20px); height: calc(100dvh - 110px); max-height: none; } }
+
+/* Mobile: pin the open panel directly to the viewport edges. Being `position:fixed`
+   with insets, it can never overflow horizontally (no vw math, no scrollbar quirks),
+   so the header + « Réduire » button always stay fully on-screen. Safe-area insets
+   keep it clear of the notch and the iOS home indicator. */
+@media (max-width: 720px) {
+  .sdi-ai.is-open .sdi-ai__panel {
+    position: fixed;
+    top: calc(10px + env(safe-area-inset-top));
+    right: calc(10px + env(safe-area-inset-right));
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    left: calc(10px + env(safe-area-inset-left));
+    width: auto;
+    height: auto;
+    max-height: none;
+    border-radius: 18px;
+  }
+}
 
 /* Dimmed backdrop to focus the conversation (click to minimize) */
 .sdi-ai__backdrop {
@@ -74,7 +91,7 @@
 .sdi-ai__name { color: #fff; font-weight: 600; font-size: 15px; }
 .sdi-ai__status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #9AA8C4; }
 .sdi-ai__status i { width: 7px; height: 7px; border-radius: 50%; background: #34D399; display: inline-block; }
-.sdi-ai__close { position: relative; display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 14px 0 12px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.32); background: rgba(255,255,255,0.16); color: #fff; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; transition: background .18s, transform .18s; }
+.sdi-ai__close { position: relative; flex-shrink: 0; display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 14px 0 12px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.32); background: rgba(255,255,255,0.16); color: #fff; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; transition: background .18s, transform .18s; }
 .sdi-ai__close:hover { background: #fff; color: #0F172A; transform: translateY(-1px); }
 .sdi-ai__close .sdi-ai__close-label { white-space: nowrap; }
 @media (max-width: 520px) { .sdi-ai__close { padding: 0; width: 40px; justify-content: center; } .sdi-ai__close .sdi-ai__close-label { display: none; } }

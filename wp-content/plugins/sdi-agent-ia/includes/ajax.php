@@ -33,10 +33,29 @@ function sdi_ai_read_history() {
 }
 
 /**
+ * Mint a fresh nonce.
+ *
+ * Page caches (LiteSpeed, WP Rocket…) serve HTML whose embedded nonce expires
+ * after ~24h, which would make every chat fail. The widget calls this
+ * uncached endpoint on load to always hold a valid nonce.
+ */
+function sdi_ai_ajax_nonce() {
+	nocache_headers();
+	wp_send_json_success( array( 'nonce' => wp_create_nonce( 'sdi_ai' ) ) );
+}
+add_action( 'wp_ajax_sdi_ai_nonce', 'sdi_ai_ajax_nonce' );
+add_action( 'wp_ajax_nopriv_sdi_ai_nonce', 'sdi_ai_ajax_nonce' );
+
+/**
  * Chat endpoint: returns the assistant's reply.
  */
 function sdi_ai_ajax_chat() {
-	check_ajax_referer( 'sdi_ai', 'nonce' );
+	// Soft nonce check: on failure return clean JSON so the widget can fetch a
+	// fresh nonce and retry (instead of check_ajax_referer dying with -1, which
+	// the front-end can only surface as a generic error).
+	if ( ! check_ajax_referer( 'sdi_ai', 'nonce', false ) ) {
+		wp_send_json_error( array( 'code' => 'bad_nonce', 'message' => 'Session expirée.' ), 403 );
+	}
 
 	$message = isset( $_POST['message'] ) ? mb_substr( sanitize_textarea_field( wp_unslash( $_POST['message'] ) ), 0, 2000 ) : '';
 	if ( '' === trim( $message ) ) {
@@ -142,7 +161,9 @@ function sdi_ai_call( $messages ) {
  * Transcript endpoint: e-mail the conversation to the configured address.
  */
 function sdi_ai_ajax_transcript() {
-	check_ajax_referer( 'sdi_ai', 'nonce' );
+	if ( ! check_ajax_referer( 'sdi_ai', 'nonce', false ) ) {
+		wp_send_json_error( array( 'code' => 'bad_nonce', 'message' => 'Session expirée.' ), 403 );
+	}
 
 	$history = sdi_ai_read_history();
 	if ( empty( $history ) ) {
