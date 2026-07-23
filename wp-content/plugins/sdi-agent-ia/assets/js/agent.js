@@ -209,18 +209,44 @@
     if (document.visibilityState === 'hidden') { flushBeacon(); }
   });
 
+  // ---- Mobile keyboard handling ----
+  // On phones the panel is full-screen and pinned to the viewport. When the
+  // on-screen keyboard opens it would otherwise hide the input, so we lift the
+  // panel's bottom by the keyboard height (via the VisualViewport API).
+  function isMobile() { return window.matchMedia('(max-width: 720px)').matches; }
+  function syncKeyboard() {
+    if (!window.visualViewport || !root.classList.contains('is-open') || !isMobile()) {
+      panel.style.setProperty('--sdi-ai-kb', '0px');
+      return;
+    }
+    var vv = window.visualViewport;
+    var overlap = window.innerHeight - vv.height - vv.offsetTop;
+    panel.style.setProperty('--sdi-ai-kb', Math.max(0, Math.round(overlap)) + 'px');
+    scrollDown();
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', syncKeyboard);
+    window.visualViewport.addEventListener('scroll', syncKeyboard);
+  }
+
   // ---- Open / close ----
   function open() {
     root.classList.add('is-open');
+    document.documentElement.classList.add('sdi-ai-lock');
     if (!greeted) {
       greeted = true;
       addMsg('assistant', cfg.welcome);
       history.push({ role: 'assistant', content: cfg.welcome });
     }
-    setTimeout(function () { input.focus(); }, 60);
+    // On mobile, don't auto-focus: focusing would pop the keyboard immediately.
+    // On desktop, focus so the visitor can type right away.
+    if (!isMobile()) { setTimeout(function () { input.focus(); }, 60); }
   }
   function close() {
     root.classList.remove('is-open');
+    document.documentElement.classList.remove('sdi-ai-lock');
+    panel.style.setProperty('--sdi-ai-kb', '0px');
+    if (document.activeElement && document.activeElement.blur) { document.activeElement.blur(); }
     // Auto-send the conversation to SDi so no lead is lost, even without the button.
     sendTranscript();
   }
@@ -230,6 +256,8 @@
   backdrop.addEventListener('click', close);
   sendBtn.addEventListener('click', send);
   input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+  input.addEventListener('focus', function () { setTimeout(syncKeyboard, 250); });
+  input.addEventListener('blur', function () { setTimeout(syncKeyboard, 250); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('is-open')) { close(); } });
   panel.querySelector('[data-transcript]').addEventListener('click', showLeadForm);
 

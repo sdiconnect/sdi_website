@@ -3,7 +3,7 @@
  * Plugin Name:       SDi Agent IA
  * Plugin URI:        https://sdi-connect.com
  * Description:        Agent conversationnel IA (chatbot) pour le site SDi : widget flottant « Parler à un agent commercial IA », propulsé par Mistral, avec export de la discussion par e-mail. Paramétrable depuis Réglages → SDi Agent IA.
- * Version:           1.0.5
+ * Version:           1.0.6
  * Author:            SDi — Solutions Digitales Intégrées
  * Author URI:        https://sdi-connect.com
  * License:           GPL-2.0-or-later
@@ -14,7 +14,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'SDI_AI_VERSION', '1.0.5' );
+define( 'SDI_AI_VERSION', '1.0.6' );
 define( 'SDI_AI_FILE', __FILE__ );
 define( 'SDI_AI_URL', plugin_dir_url( __FILE__ ) );
 define( 'SDI_AI_DIR', plugin_dir_path( __FILE__ ) );

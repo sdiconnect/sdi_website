@@ -54,23 +54,35 @@
 }
 @media (max-width: 1024px) { .sdi-ai.is-open .sdi-ai__panel { width: min(88vw, 760px); height: 80vh; } }
 
-/* Mobile: pin the open panel directly to the viewport edges. Being `position:fixed`
-   with insets, it can never overflow horizontally (no vw math, no scrollbar quirks),
-   so the header + « Réduire » button always stay fully on-screen. Safe-area insets
-   keep it clear of the notch and the iOS home indicator. */
+/* ---------- Mobile: full-screen conversation (WhatsApp-style) ----------
+   On phones the open chat becomes a dedicated full-screen surface, edge to edge,
+   so nothing behind it can be touched or scrolled. `--sdi-ai-kb` (set from the
+   VisualViewport API in JS) lifts the bottom above the on-screen keyboard so the
+   input stays visible while typing. */
 @media (max-width: 720px) {
   .sdi-ai.is-open .sdi-ai__panel {
     position: fixed;
-    top: calc(10px + env(safe-area-inset-top));
-    right: calc(10px + env(safe-area-inset-right));
-    bottom: calc(10px + env(safe-area-inset-bottom));
-    left: calc(10px + env(safe-area-inset-left));
+    top: 0; left: 0; right: 0;
+    bottom: var(--sdi-ai-kb, 0px);
     width: auto;
     height: auto;
     max-height: none;
-    border-radius: 18px;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    transition: bottom .18s ease;
   }
+  /* Clear the notch / status bar and the iOS home indicator. */
+  .sdi-ai.is-open .sdi-ai__head { padding-top: calc(16px + env(safe-area-inset-top)); }
+  .sdi-ai.is-open .sdi-ai__foot { padding-bottom: env(safe-area-inset-bottom); }
+  /* 16px minimum stops iOS Safari from auto-zooming when a field gets focus.
+     Extra `.sdi-ai` scope keeps it winning over the base 14px rule regardless
+     of source order. */
+  .sdi-ai .sdi-ai__input, .sdi-ai .sdi-ai__lead input { font-size: 16px; }
 }
+
+/* Lock the page behind the full-screen chat so the visitor never "loses" it. */
+html.sdi-ai-lock, html.sdi-ai-lock body { overflow: hidden; }
 
 /* Dimmed backdrop to focus the conversation (click to minimize) */
 .sdi-ai__backdrop {
