@@ -86,10 +86,15 @@ $sdi_footer_cols = array(
 		</div>
 	</footer>
 
-	<!-- Mobile fixed action bar -->
+	<!-- Mobile fixed action bar : un seul CTA vers l'agent IA (notre outil fort).
+	     data-sdi-bot-open ouvre le chat quand l'extension SDi Agent IA est active ;
+	     sinon le lien mène à la page Contact (repli gracieux). -->
 	<div class="sdi-mobilebar">
-		<a class="sdi-mobilebar__call" href="tel:+33980806296"><?php sdi_the_icon( 'phone', 17 ); ?>Appeler</a>
-		<a class="sdi-mobilebar__contact" href="<?php echo esc_url( sdi_page_url( 'contact' ) ); ?>">Nous contacter</a>
+		<a class="sdi-mobilebar__agent" href="<?php echo esc_url( sdi_page_url( 'contact' ) ); ?>" data-sdi-bot-open aria-label="Parler à un conseiller">
+			<span class="sdi-mobilebar__agent-ic"><?php sdi_the_icon( 'sparkles', 19 ); ?></span>
+			<span class="sdi-mobilebar__agent-txt">Parler à un conseiller</span>
+			<span class="sdi-mobilebar__agent-dot" aria-hidden="true"></span>
+		</a>
 	</div>
 
 	<?php

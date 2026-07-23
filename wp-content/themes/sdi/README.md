@@ -4,6 +4,16 @@ Thème sur-mesure pour **SDi — Solutions Digitales Intégrées** (sdi-connect.
 agence web & IA à Dijon et Paris. Recréation haute-fidélité de la refonte « Claude
 Design » dans un thème WordPress natif, sans page builder ni dépendance à un plugin.
 
+## Nouveautés v1.0.7
+
+- **Barre d'action mobile repensée** : sur mobile, les boutons « Appeler » et
+  « Nous contacter » sont remplacés par **un seul appel à l'action fort vers
+  l'agent IA** — « Parler à un conseiller » (dégradé de marque, pastille « en
+  ligne »). Il ouvre le chat de l'extension **SDi Agent IA** (via
+  `data-sdi-bot-open`) ; sans l'extension, il mène à la page Contact.
+- Le **lanceur flottant** de l'extension est masqué sur mobile pour ne laisser
+  **qu'un seul CTA** (la barre), sans doublon.
+
 ## Nouveautés v1.0.6
 
 - Page d'accueil : la section « Réalisations » n'affiche plus que **3 projets**
