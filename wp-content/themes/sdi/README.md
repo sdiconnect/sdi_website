@@ -4,6 +4,20 @@ Thème sur-mesure pour **SDi — Solutions Digitales Intégrées** (sdi-connect.
 agence web & IA à Dijon et Paris. Recréation haute-fidélité de la refonte « Claude
 Design » dans un thème WordPress natif, sans page builder ni dépendance à un plugin.
 
+## Nouveautés v1.0.8
+
+- **Nouveau hero de la page d'accueil** (« Claude Design ») : le bloc « tableau de
+  bord » abstrait est remplacé par un **collage de 3 vraies réalisations clients**
+  (Tereos, Audialys, Orvitis) — mockups superposés, légèrement inclinés, fondus
+  dans le fond navy (voile + étalonnage CSS), avec **flottement animé** et deux
+  **pastilles de preuve sociale** (« +38 % leads/mois » en verre dépoli, note
+  Google 4,9/5). Passe automatiquement en 1 colonne sous ~840px (sans media query).
+- Visuels servis en **WebP responsive** (`srcset` 512/1024, < 60 Ko chacun),
+  `fetchpriority="high"` sur le mockup principal (LCP). Fichiers dans
+  `assets/img/hero/`.
+- Typo conservée (police maison du thème) : aucune webfont supplémentaire chargée.
+  Note Google reprise depuis Personnaliser (avis clients).
+
 ## Nouveautés v1.0.7
 
 - **Barre d'action mobile repensée** : sur mobile, les boutons « Appeler » et

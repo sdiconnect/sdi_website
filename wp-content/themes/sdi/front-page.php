@@ -68,71 +68,77 @@ get_header();
 ?>
 
 <!-- ============ 1. HERO ============ -->
-<section style="position:relative;background:var(--gradient-navy);color:var(--white);overflow:hidden;">
-	<div style="position:absolute;inset:0;background:var(--gradient-halo);pointer-events:none;"></div>
-	<div style="position:absolute;top:-10%;right:-5%;width:520px;height:520px;background:radial-gradient(circle at center,rgba(0,165,228,0.16) 0%,rgba(0,165,228,0) 68%);pointer-events:none;"></div>
-	<div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 70% at 50% 20%,#000 0%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 20%,#000 0%,transparent 75%);pointer-events:none;"></div>
-	<div style="position:relative;max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,104px) clamp(20px,5vw,32px) clamp(64px,8vw,96px);">
-		<div data-hero-grid style="display:grid;grid-template-columns:1.08fr 0.92fr;gap:clamp(40px,5vw,72px);align-items:center;">
-			<div>
-				<div class="sdi-reveal sdi-eyebrow sdi-eyebrow--pill" data-reveal style="color:var(--cyan-400);font-weight:500;">// Agence web &amp; IA · Paris · Dijon</div>
-				<h1 class="sdi-reveal" data-reveal data-reveal-delay="80" style="margin-top:22px;font-family:var(--font-display);font-weight:700;font-size:clamp(38px,5.4vw,68px);line-height:1.03;letter-spacing:-0.03em;color:var(--white);text-wrap:balance;">Sites web, SaaS et agents IA, conçus pour faire grandir votre entreprise.</h1>
-				<p class="sdi-reveal" data-reveal data-reveal-delay="160" style="margin-top:24px;font-size:clamp(17px,1.4vw,20px);line-height:1.6;color:var(--navy-300);max-width:560px;">Votre agence digitale, ancrée à Dijon et pilotée depuis Paris, qui allie la proximité d'un partenaire local à la puissance technique d'un studio produit. Depuis 2017, plus de 100 projets livrés partout en France.</p>
-				<div class="sdi-reveal" data-reveal data-reveal-delay="240" style="margin-top:34px;display:flex;flex-wrap:wrap;gap:14px;">
-					<a href="#contact" data-scroll-to="#contact" class="sdi-btn sdi-btn--primary sdi-btn--lg">Demander un devis</a>
-					<a href="#realisations" class="sdi-ghost-dark">Voir nos réalisations <?php sdi_the_icon( 'arrow-right', 18 ); ?></a>
-				</div>
-				<div class="sdi-reveal" data-reveal data-reveal-delay="320" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;">
-					<?php
-					$hero_chips = array(
-						array( 'map-pin', 'Dijon', 'var(--cyan-400)' ),
-						array( 'calendar', 'Depuis 2017', 'var(--cyan-400)' ),
-						array( 'check-circle-2', '+100 projets livrés', 'var(--cyan-400)' ),
-						array( 'star-solid', sdi_rating_value() . '/5 · ' . sdi_rating_count() . ' avis Google', 'var(--amber-500)' ),
-					);
-					foreach ( $hero_chips as $chip ) : ?>
-						<span style="display:inline-flex;align-items:center;gap:8px;color:var(--navy-300);font-size:14px;font-weight:500;"><span style="color:<?php echo esc_attr( $chip[2] ); ?>;display:inline-flex;"><?php sdi_the_icon( $chip[0], 15 ); ?></span><?php echo esc_html( $chip[1] ); ?></span>
-					<?php endforeach; ?>
-				</div>
+<?php
+$hero_img = get_template_directory_uri() . '/assets/img/hero';
+$hero_shots = array(
+	'tereos'   => array( 'label' => 'Tereos · SaaS industriel', 'alt' => 'Plateforme de gestion des équipements Tereos développée par SDi' ),
+	'audialys' => array( 'label' => 'Audialys · SaaS IA', 'alt' => 'Application Audialys, transcription et génération de documents par IA' ),
+	'orvitis'  => array( 'label' => 'Orvitis · Site & portail', 'alt' => 'Site et portail locataires Orvitis réalisé par SDi' ),
+);
+?>
+<section class="sdi-hero">
+	<div class="sdi-hero__grid" aria-hidden="true"></div>
+	<div class="sdi-hero__glow" aria-hidden="true"></div>
+
+	<div class="sdi-hero__inner">
+
+		<div class="sdi-hero__copy">
+			<p class="sdi-hero__eyebrow">Agence web &amp; IA · Paris · Dijon</p>
+
+			<h1 class="sdi-hero__title">Sites web, SaaS et agents IA, conçus pour <em>faire grandir</em> votre entreprise.</h1>
+
+			<p class="sdi-hero__lead">Votre agence digitale, ancrée à Dijon et pilotée depuis Paris, qui allie la proximité d'un partenaire local à la puissance technique d'un studio produit. Depuis 2017, plus de 100 projets livrés partout en France.</p>
+
+			<div class="sdi-hero__ctas">
+				<a class="sdi-hero__cta sdi-hero__cta--primary" href="#contact" data-scroll-to="#contact">Demander un devis</a>
+				<a class="sdi-hero__cta sdi-hero__cta--ghost" href="#realisations">Voir nos réalisations <span class="sdi-hero__cta-arrow" aria-hidden="true">→</span></a>
 			</div>
-			<!-- product mock -->
-			<div class="sdi-reveal" data-reveal data-reveal-delay="200" style="position:relative;">
-				<div style="position:relative;border-radius:24px;border:1px solid var(--border-inverse);background:var(--glass-bg-dark);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 40px 90px rgba(7,11,22,0.55);padding:22px;">
-					<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-						<span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy-400);">// Tableau de bord</span>
-						<div style="display:flex;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:#EC4A9E;"></span><span style="width:9px;height:9px;border-radius:50%;background:var(--cyan-400);"></span><span style="width:9px;height:9px;border-radius:50%;background:var(--blue-400);"></span></div>
-					</div>
-					<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-						<div style="border:1px solid var(--border-inverse);border-radius:16px;padding:16px;background:rgba(255,255,255,0.03);">
-							<div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;color:var(--navy-400);text-transform:uppercase;">Leads / mois</div>
-							<div style="font-size:32px;font-weight:700;color:var(--white);margin-top:6px;">+38<span style="color:var(--cyan-400);">%</span></div>
-						</div>
-						<div style="border:1px solid var(--border-inverse);border-radius:16px;padding:16px;background:rgba(255,255,255,0.03);">
-							<div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;color:var(--navy-400);text-transform:uppercase;">Temps gagné</div>
-							<div style="font-size:32px;font-weight:700;color:var(--white);margin-top:6px;">12<span style="font-size:18px;color:var(--navy-400);">h/sem</span></div>
-						</div>
-					</div>
-					<div style="border:1px solid var(--border-inverse);border-radius:16px;padding:18px 16px 14px;background:rgba(255,255,255,0.03);">
-						<div style="display:flex;align-items:flex-end;gap:8px;height:88px;">
-							<span style="flex:1;height:38%;background:var(--blue-500);border-radius:6px 6px 2px 2px;"></span>
-							<span style="flex:1;height:56%;background:var(--blue-400);border-radius:6px 6px 2px 2px;"></span>
-							<span style="flex:1;height:47%;background:var(--blue-500);border-radius:6px 6px 2px 2px;"></span>
-							<span style="flex:1;height:72%;background:var(--cyan-400);border-radius:6px 6px 2px 2px;"></span>
-							<span style="flex:1;height:64%;background:var(--blue-400);border-radius:6px 6px 2px 2px;"></span>
-							<span style="flex:1;height:92%;background:var(--cyan-500);border-radius:6px 6px 2px 2px;"></span>
-						</div>
-					</div>
-					<div style="margin-top:16px;display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:14px;background:linear-gradient(120deg,rgba(29,110,255,0.16),rgba(0,165,228,0.14));border:1px solid var(--border-inverse);">
-						<span style="width:34px;height:34px;border-radius:10px;background:var(--gradient-brand);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;"><?php sdi_the_icon( 'sparkles', 18 ); ?></span>
-						<div><div style="font-size:13px;font-weight:600;color:var(--white);">Agent IA SDi</div><div style="font-size:12px;color:var(--navy-400);">Qualifie vos leads 24h/24</div></div>
-					</div>
-				</div>
-				<div style="position:absolute;bottom:-18px;left:-18px;background:var(--white);border-radius:14px;box-shadow:var(--shadow-lg);padding:12px 16px;display:flex;align-items:center;gap:10px;animation:sdiFloat 5s ease-in-out infinite;">
-					<span style="color:var(--amber-500);display:inline-flex;"><?php sdi_the_icon( 'star-solid', 18 ); ?></span>
-					<div><div style="font-weight:700;color:var(--text-strong);font-size:15px;line-height:1;"><?php echo esc_html( sdi_rating_value() ); ?>/5</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><?php echo esc_html( sdi_rating_count() ); ?> avis Google</div></div>
-				</div>
-			</div>
+
+			<ul class="sdi-hero__trust">
+				<li>Dijon &amp; Paris</li>
+				<li>Depuis 2017</li>
+				<li>+100 projets livrés</li>
+				<li class="is-rating"><?php echo esc_html( sdi_rating_value() ); ?>/5 · <?php echo esc_html( sdi_rating_count() ); ?> avis Google</li>
+			</ul>
 		</div>
+
+		<div class="sdi-hero__collage">
+			<?php
+			$i = 0;
+			foreach ( $hero_shots as $slug => $shot ) :
+				$eager = ( 'audialys' === $slug );
+				?>
+			<figure class="sdi-shot sdi-shot--<?php echo esc_attr( $slug ); ?>">
+				<div class="sdi-shot__frame">
+					<img
+						src="<?php echo esc_url( "$hero_img/hero-$slug-1024.webp" ); ?>"
+						srcset="<?php echo esc_url( "$hero_img/hero-$slug-512.webp" ); ?> 512w, <?php echo esc_url( "$hero_img/hero-$slug-1024.webp" ); ?> 1024w"
+						sizes="(max-width: 640px) 60vw, 430px"
+						width="1024" height="683"
+						alt="<?php echo esc_attr( $shot['alt'] ); ?>"
+						loading="eager" decoding="async"<?php echo $eager ? ' fetchpriority="high"' : ''; ?> />
+					<span class="sdi-shot__veil" aria-hidden="true"></span>
+					<figcaption class="sdi-shot__label"><?php echo esc_html( $shot['label'] ); ?></figcaption>
+				</div>
+			</figure>
+			<?php $i++; endforeach; ?>
+
+			<div class="sdi-badge sdi-badge--stat">
+				<span class="sdi-badge__k">Leads / mois</span>
+				<span class="sdi-badge__v">+38<span>%</span></span>
+			</div>
+
+			<div class="sdi-badge sdi-badge--rating">
+				<span class="sdi-badge__star" aria-hidden="true">★</span>
+				<span class="sdi-badge__txt">
+					<strong><?php echo esc_html( sdi_rating_value() ); ?>/5</strong>
+					<small><?php echo esc_html( sdi_rating_count() ); ?> avis Google</small>
+				</span>
+			</div>
+
+			<div class="sdi-hero__collage-glow" aria-hidden="true"></div>
+		</div>
+
 	</div>
 </section>
 
