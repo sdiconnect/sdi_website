@@ -68,14 +68,6 @@ get_header();
 ?>
 
 <!-- ============ 1. HERO ============ -->
-<?php
-$hero_img = get_template_directory_uri() . '/assets/img/hero';
-$hero_shots = array(
-	'tereos'   => array( 'label' => 'Tereos · SaaS industriel', 'alt' => 'Plateforme de gestion des équipements Tereos développée par SDi' ),
-	'audialys' => array( 'label' => 'Audialys · SaaS IA', 'alt' => 'Application Audialys, transcription et génération de documents par IA' ),
-	'orvitis'  => array( 'label' => 'Orvitis · Site & portail', 'alt' => 'Site et portail locataires Orvitis réalisé par SDi' ),
-);
-?>
 <section class="sdi-hero">
 	<div class="sdi-hero__grid" aria-hidden="true"></div>
 	<div class="sdi-hero__glow" aria-hidden="true"></div>
@@ -104,24 +96,21 @@ $hero_shots = array(
 
 		<div class="sdi-hero__collage">
 			<?php
-			$i = 0;
-			foreach ( $hero_shots as $slug => $shot ) :
-				$eager = ( 'audialys' === $slug );
+			foreach ( sdi_get_hero_shots() as $shot ) :
+				$eager = ( 'audialys' === $shot['slug'] );
 				?>
-			<figure class="sdi-shot sdi-shot--<?php echo esc_attr( $slug ); ?>">
+			<figure class="sdi-shot sdi-shot--<?php echo esc_attr( $shot['slug'] ); ?>">
 				<div class="sdi-shot__frame">
 					<img
-						src="<?php echo esc_url( "$hero_img/hero-$slug-1024.webp" ); ?>"
-						srcset="<?php echo esc_url( "$hero_img/hero-$slug-512.webp" ); ?> 512w, <?php echo esc_url( "$hero_img/hero-$slug-1024.webp" ); ?> 1024w"
-						sizes="(max-width: 640px) 60vw, 430px"
-						width="1024" height="683"
+						src="<?php echo esc_url( $shot['img'] ); ?>"
+						<?php if ( $shot['srcset'] ) : ?>srcset="<?php echo esc_attr( $shot['srcset'] ); ?>" sizes="(max-width: 640px) 60vw, 430px" width="1024" height="683" <?php endif; ?>
 						alt="<?php echo esc_attr( $shot['alt'] ); ?>"
 						loading="eager" decoding="async"<?php echo $eager ? ' fetchpriority="high"' : ''; ?> />
 					<span class="sdi-shot__veil" aria-hidden="true"></span>
 					<figcaption class="sdi-shot__label"><?php echo esc_html( $shot['label'] ); ?></figcaption>
 				</div>
 			</figure>
-			<?php $i++; endforeach; ?>
+			<?php endforeach; ?>
 
 			<div class="sdi-badge sdi-badge--stat">
 				<span class="sdi-badge__k">Leads / mois</span>

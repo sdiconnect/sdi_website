@@ -4,6 +4,15 @@ Thème sur-mesure pour **SDi — Solutions Digitales Intégrées** (sdi-connect.
 agence web & IA à Dijon et Paris. Recréation haute-fidélité de la refonte « Claude
 Design » dans un thème WordPress natif, sans page builder ni dépendance à un plugin.
 
+## Nouveautés v1.0.9
+
+- **Mockups du hero gérables depuis Personnaliser** (Apparence → Personnaliser →
+  « SDi — Hero (réalisations) ») : **3 emplacements** (image + libellé). Chaque
+  emplacement correspond à une position fixe du collage (arrière / principale /
+  avant). Laissez une image vide pour conserver le visuel par défaut fourni.
+  Les images téléversées sont utilisées telles quelles (les défauts restent en
+  WebP responsive). Idéal : ~1024×683.
+
 ## Nouveautés v1.0.8
 
 - **Nouveau hero de la page d'accueil** (« Claude Design ») : le bloc « tableau de

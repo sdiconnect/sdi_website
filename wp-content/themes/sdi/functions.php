@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'SDI_VERSION', '1.0.8' );
+define( 'SDI_VERSION', '1.0.9' );
 define( 'SDI_DIR', get_template_directory() );
 define( 'SDI_URI', get_template_directory_uri() );
 
@@ -196,6 +196,27 @@ function sdi_customize( $wp_customize ) {
 		$wp_customize->add_control( "sdi_review{$i}_rating", array( 'label' => sprintf( __( 'Avis %d — Étoiles (1-5)', 'sdi' ), $i ), 'section' => 'sdi_reviews', 'type' => 'number', 'input_attrs' => array( 'min' => 1, 'max' => 5 ) ) );
 	}
 
+	/* ---- Hero de la page d'accueil (collage de réalisations) ---- */
+	$wp_customize->add_section( 'sdi_hero', array( 'title' => __( 'SDi — Hero (réalisations)', 'sdi' ), 'priority' => 39, 'description' => __( "Les 3 mockups affichés dans l'en-tête de la page d'accueil. Remplacez une image quand vous le souhaitez ; laissez vide pour garder l'image par défaut. Idéal : capture large ~1024×683 (WebP, PNG ou JPG).", 'sdi' ) ) );
+	$hero_defaults = sdi_default_hero_shots();
+	$hero_slugs    = array_keys( $hero_defaults );
+	$hero_pos      = array( __( 'Arrière — gauche', 'sdi' ), __( 'Principale — centre', 'sdi' ), __( 'Avant — bas gauche', 'sdi' ) );
+	for ( $i = 1; $i <= 3; $i++ ) {
+		$d = $hero_defaults[ $hero_slugs[ $i - 1 ] ];
+
+		$wp_customize->add_setting( "sdi_hero_img_{$i}", array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+		$wp_customize->add_control(
+			new WP_Customize_Image_Control(
+				$wp_customize,
+				"sdi_hero_img_{$i}",
+				array( 'label' => sprintf( __( 'Réalisation %1$d — image (%2$s)', 'sdi' ), $i, $hero_pos[ $i - 1 ] ), 'section' => 'sdi_hero' )
+			)
+		);
+
+		$wp_customize->add_setting( "sdi_hero_label_{$i}", array( 'default' => $d['label'], 'sanitize_callback' => 'sanitize_text_field' ) );
+		$wp_customize->add_control( "sdi_hero_label_{$i}", array( 'label' => sprintf( __( 'Réalisation %d — libellé', 'sdi' ), $i ), 'section' => 'sdi_hero', 'type' => 'text' ) );
+	}
+
 	/* ---- Logos clients (bandeau « Ils nous font confiance ») ---- */
 	$wp_customize->add_section( 'sdi_clients', array( 'title' => __( 'SDi — Logos clients', 'sdi' ), 'priority' => 42, 'description' => __( '12 emplacements. Laissez vide un emplacement pour le masquer. Format PNG transparent conseillé.', 'sdi' ) ) );
 	$logo_defaults = sdi_default_client_logos();
@@ -258,6 +279,61 @@ function sdi_get_client_logos() {
 			'url' => $url,
 			'alt' => get_theme_mod( "sdi_client_alt_{$i}", $d['alt'] ),
 		);
+	}
+	return $out;
+}
+
+/**
+ * Default hero shots (bundled WebP) — also the Customizer label defaults.
+ * Keyed by slug (which drives the CSS positioning: back / main / front).
+ *
+ * @return array slug => array('img'=>, 'srcset'=>, 'label'=>, 'alt'=>).
+ */
+function sdi_default_hero_shots() {
+	$b = SDI_URI . '/assets/img/hero/';
+	return array(
+		'tereos'   => array(
+			'img'    => $b . 'hero-tereos-1024.webp',
+			'srcset' => $b . 'hero-tereos-512.webp 512w, ' . $b . 'hero-tereos-1024.webp 1024w',
+			'label'  => 'Tereos · SaaS industriel',
+			'alt'    => 'Plateforme de gestion des équipements Tereos développée par SDi',
+		),
+		'audialys' => array(
+			'img'    => $b . 'hero-audialys-1024.webp',
+			'srcset' => $b . 'hero-audialys-512.webp 512w, ' . $b . 'hero-audialys-1024.webp 1024w',
+			'label'  => 'Audialys · SaaS IA',
+			'alt'    => 'Application Audialys, transcription et génération de documents par IA',
+		),
+		'orvitis'  => array(
+			'img'    => $b . 'hero-orvitis-1024.webp',
+			'srcset' => $b . 'hero-orvitis-512.webp 512w, ' . $b . 'hero-orvitis-1024.webp 1024w',
+			'label'  => 'Orvitis · Site & portail',
+			'alt'    => 'Site et portail locataires Orvitis réalisé par SDi',
+		),
+	);
+}
+
+/**
+ * Hero shots for display, read from the Customizer (3 slots).
+ * A custom upload replaces the bundled image (served as a single src, no srcset,
+ * since intermediate sizes aren't known); an empty slot keeps the responsive default.
+ *
+ * @return array List of array('slug'=>, 'img'=>, 'srcset'=>, 'label'=>, 'alt'=>).
+ */
+function sdi_get_hero_shots() {
+	$defaults = sdi_default_hero_shots();
+	$slugs    = array_keys( $defaults );
+	$out      = array();
+	for ( $i = 1; $i <= 3; $i++ ) {
+		$slug   = $slugs[ $i - 1 ];
+		$d      = $defaults[ $slug ];
+		$custom = get_theme_mod( "sdi_hero_img_{$i}", '' );
+		$label  = get_theme_mod( "sdi_hero_label_{$i}", $d['label'] );
+		if ( $custom ) {
+			$out[] = array( 'slug' => $slug, 'img' => $custom, 'srcset' => '', 'label' => $label, 'alt' => ( $label ? $label : $d['alt'] ) );
+		} else {
+			$out[] = array( 'slug' => $slug, 'img' => $d['img'], 'srcset' => $d['srcset'], 'label' => $label, 'alt' => $d['alt'] );
+		}
 	}
 	return $out;
 }
