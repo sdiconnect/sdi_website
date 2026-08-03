@@ -7,7 +7,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'SDI_VERSION', '1.0.10' );
+define( 'SDI_VERSION', '1.0.11' );
 define( 'SDI_DIR', get_template_directory() );
 define( 'SDI_URI', get_template_directory_uri() );
 
@@ -18,6 +18,7 @@ require_once SDI_DIR . '/inc/seo.php';
 require_once SDI_DIR . '/inc/contact.php';
 require_once SDI_DIR . '/inc/landing.php';
 require_once SDI_DIR . '/inc/landing-data.php';
+require_once SDI_DIR . '/inc/updates.php';
 
 /**
  * Theme setup.

@@ -4,6 +4,53 @@ Thème sur-mesure pour **SDi — Solutions Digitales Intégrées** (sdi-connect.
 agence web & IA à Dijon et Paris. Recréation haute-fidélité de la refonte « Claude
 Design » dans un thème WordPress natif, sans page builder ni dépendance à un plugin.
 
+## Nouveautés v1.0.11
+
+- **Mises à jour du thème en un clic** (comme un thème du dépôt WordPress). Le
+  thème peut désormais se **mettre à jour en place** : WordPress affiche
+  « Mettre à jour » sur la vignette du thème et **remplace la version courante**
+  — plus besoin de désactiver / supprimer / réinstaller.
+
+  Fonctionnement : un petit fichier « manifeste » (JSON) est hébergé à une URL
+  que vous contrôlez ; il indique la dernière version et l'URL du `.zip`. Voir
+  « Mettre à jour le thème » ci-dessous.
+
+## Mettre à jour le thème
+
+Deux façons, au choix :
+
+### A. Écrasement au téléversement (natif WordPress, sans configuration)
+Depuis WordPress 5.5, **Apparence → Thèmes → Ajouter → Téléverser un thème**
+accepte un thème déjà installé : WordPress affiche une comparaison
+« Version courante / Version téléversée » avec un bouton
+**« Remplacer l'actuel par le téléversé »**. Aucun besoin de supprimer d'abord.
+*(Si l'écran de remplacement n'apparaît pas, c'est en général une extension de
+sécurité ou une restriction de l'hébergeur qui le bloque.)*
+
+### B. Mise à jour automatique en un clic (recommandé)
+Hébergez **deux fichiers** à une URL de votre domaine (ex. `/updates/`) :
+
+1. `sdi.zip` — le zip du thème (celui que je vous livre) ;
+2. `sdi-theme.json` — le manifeste :
+
+```json
+{
+  "version": "1.0.11",
+  "download_url": "https://sdi-connect.com/updates/sdi.zip",
+  "details_url": "https://sdi-connect.com"
+}
+```
+
+Ensuite, à chaque nouvelle version : remplacez `sdi.zip` et montez le numéro de
+`version` dans le JSON. WordPress détecte la mise à jour (sous 6 h, ou
+immédiatement via **Tableau de bord → Mises à jour → Vérifier à nouveau**) et
+propose **« Mettre à jour »** sur le thème — installation en place, rien à
+supprimer.
+
+- URL du manifeste personnalisable via la constante `SDI_UPDATE_MANIFEST_URL`
+  (dans `wp-config.php`) ou le filtre `sdi_update_manifest_url`.
+- Si le manifeste est injoignable, rien ne se passe (aucune erreur).
+
 ## Nouveautés v1.0.10
 
 - **Anti-spam renforcé sur tous les formulaires** (contact, accueil, pages
