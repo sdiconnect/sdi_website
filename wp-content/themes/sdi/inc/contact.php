@@ -27,6 +27,63 @@ function sdi_contact_recipient() {
 }
 
 /**
+ * Best-effort client IP (behind Cloudflare / reverse proxy) for rate limiting.
+ *
+ * @return string
+ */
+function sdi_client_ip() {
+	foreach ( array( 'HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR' ) as $k ) {
+		if ( ! empty( $_SERVER[ $k ] ) ) {
+			$ip = trim( explode( ',', wp_unslash( $_SERVER[ $k ] ) )[0] );
+			return filter_var( $ip, FILTER_VALIDATE_IP ) ? $ip : '';
+		}
+	}
+	return '';
+}
+
+/**
+ * Heuristic spam detection for the contact form. Returns a short reason code
+ * when the submission looks like spam, or '' when it looks legitimate.
+ *
+ * @param string $name    Submitted name.
+ * @param string $message Submitted message.
+ * @return string
+ */
+function sdi_contact_is_spam( $name, $message ) {
+	$haystack = $name . ' ' . $message;
+
+	// Second honeypot (a tempting "url" field) — real users never fill it.
+	if ( ! empty( $_POST['sdi_url'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		return 'hp2';
+	}
+
+	// Time trap: a human can't read + fill the form in under ~3s; bots do.
+	$ts = isset( $_POST['sdi_ts'] ) ? (int) $_POST['sdi_ts'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	if ( $ts > 0 && ( time() - $ts ) < 3 ) {
+		return 'too_fast';
+	}
+
+	// Non-Latin scripts (Cyrillic, CJK, Arabic, Hebrew, Thai, Hangul, Kana):
+	// SDi's audience writes in French/Latin — this alone kills most bot spam.
+	if ( preg_match( '/[\x{0400}-\x{052F}\x{0590}-\x{05FF}\x{0600}-\x{06FF}\x{0E00}-\x{0E7F}\x{3040}-\x{30FF}\x{4E00}-\x{9FFF}\x{AC00}-\x{D7AF}]/u', $haystack ) ) {
+		return 'script';
+	}
+
+	// A name is never a URL; messages rarely carry links (spam usually does).
+	if ( preg_match( '#https?://|www\.|\[url#i', $name ) ) {
+		return 'name_url';
+	}
+	if ( preg_match_all( '#https?://|www\.#i', $message ) >= 2 ) {
+		return 'links';
+	}
+	if ( preg_match( '#\[url|\[link|xn--|viagra|casino|crypto|bitcoin|порн|секс#iu', $message ) ) {
+		return 'keyword';
+	}
+
+	return '';
+}
+
+/**
  * Process the contact form submission.
  */
 function sdi_handle_contact() {
@@ -44,11 +101,29 @@ function sdi_handle_contact() {
 		exit;
 	}
 
+	// Per-IP rate limit: max 5 submissions / 15 min (stops bulk flooding).
+	$ip = sdi_client_ip();
+	if ( $ip ) {
+		$rl_key = 'sdi_cf_' . md5( $ip );
+		$count  = (int) get_transient( $rl_key );
+		if ( $count >= 5 ) {
+			wp_safe_redirect( add_query_arg( 'contact', 'sent', $referer ) . '#contact' ); // silently drop.
+			exit;
+		}
+		set_transient( $rl_key, $count + 1, 15 * MINUTE_IN_SECONDS );
+	}
+
 	$name    = isset( $_POST['sdi_name'] ) ? sanitize_text_field( wp_unslash( $_POST['sdi_name'] ) ) : '';
 	$email   = isset( $_POST['sdi_email'] ) ? sanitize_email( wp_unslash( $_POST['sdi_email'] ) ) : '';
 	$phone   = isset( $_POST['sdi_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['sdi_phone'] ) ) : '';
 	$message = isset( $_POST['sdi_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['sdi_message'] ) ) : '';
 	$source  = isset( $_POST['sdi_source'] ) ? sanitize_text_field( wp_unslash( $_POST['sdi_source'] ) ) : '';
+
+	// Spam heuristics: silently discard (don't tip off the bot) and pretend it worked.
+	if ( '' !== sdi_contact_is_spam( $name, $message ) ) {
+		wp_safe_redirect( add_query_arg( 'contact', 'sent', $referer ) . '#contact' );
+		exit;
+	}
 
 	if ( '' === $name || ! is_email( $email ) || '' === $message ) {
 		$back = add_query_arg( 'contact', 'error', $referer );
@@ -124,7 +199,11 @@ function sdi_contact_form( $heading = 'Nous contacter', $source = '' ) {
 		<input type="hidden" name="action" value="sdi_contact">
 		<?php if ( $source ) : ?><input type="hidden" name="sdi_source" value="<?php echo esc_attr( $source ); ?>"><?php endif; ?>
 		<?php wp_nonce_field( 'sdi_contact', 'sdi_contact_nonce' ); ?>
-		<div style="position:absolute;left:-9999px;" aria-hidden="true"><label>Ne pas remplir<input type="text" name="sdi_website_hp" tabindex="-1" autocomplete="off"></label></div>
+		<input type="hidden" name="sdi_ts" value="<?php echo esc_attr( time() ); ?>">
+		<div style="position:absolute;left:-9999px;" aria-hidden="true">
+			<label>Ne pas remplir<input type="text" name="sdi_website_hp" tabindex="-1" autocomplete="off"></label>
+			<label>Site web<input type="text" name="sdi_url" tabindex="-1" autocomplete="off"></label>
+		</div>
 		<?php
 		echo sdi_input( array( 'label' => 'Nom & entreprise', 'name' => 'sdi_name', 'placeholder' => 'Marie Durand · Domaine Durand', 'required' => true ) ); // phpcs:ignore WordPress.Security.EscapeOutput
 		echo sdi_input( array( 'label' => 'Email professionnel', 'name' => 'sdi_email', 'type' => 'email', 'icon' => 'mail', 'placeholder' => 'vous@entreprise.fr', 'required' => true ) ); // phpcs:ignore WordPress.Security.EscapeOutput

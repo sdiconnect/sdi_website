@@ -4,6 +4,22 @@ Thème sur-mesure pour **SDi — Solutions Digitales Intégrées** (sdi-connect.
 agence web & IA à Dijon et Paris. Recréation haute-fidélité de la refonte « Claude
 Design » dans un thème WordPress natif, sans page builder ni dépendance à un plugin.
 
+## Nouveautés v1.0.10
+
+- **Anti-spam renforcé sur tous les formulaires** (contact, accueil, pages
+  d'atterrissage — même moteur). En plus du nonce et du premier pot de miel :
+  - **2ᵉ pot de miel** (champ « url » caché) ;
+  - **piège temporel** (soumission en < 3 s = bot) ;
+  - **rejet des scripts non-latins** (cyrillique, CJK, arabe, hébreu, thaï,
+    hangûl, kana) — bloque le spam type « Прывітанне… » sans gêner le français ;
+  - **filtrage des liens** (nom = URL, ou ≥ 2 liens dans le message) et
+    quelques mots-clés spam ;
+  - **limite par IP** (5 envois / 15 min).
+
+  Les envois suspects sont **silencieusement ignorés** (le bot croit avoir
+  réussi). Aucune clé ni service externe requis. Pour une protection encore
+  plus forte, un CAPTCHA invisible (Cloudflare Turnstile) peut être ajouté.
+
 ## Nouveautés v1.0.9
 
 - **Mockups du hero gérables depuis Personnaliser** (Apparence → Personnaliser →
