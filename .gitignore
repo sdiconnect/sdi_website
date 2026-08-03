@@ -21,6 +21,7 @@ wp-content/debug.log
 wp-content/themes/twenty*/
 wp-content/plugins/*
 !wp-content/plugins/sdi-agent-ia/
+!wp-content/plugins/sdi-mail-log/
 
 # OS / editor
 .DS_Store
